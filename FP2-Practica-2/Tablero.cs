@@ -33,5 +33,23 @@ namespace FP2P2
         Random rnd; // generador de aleatorios
                     // flag para mensajes de depuracion en consola
         private bool DEBUG = true;
+
+        public Tablero(string file)
+        {
+            // Abrimos flujo de archivo y se leen los niveles de levels/level0X.DAT.
+            StreamReader archivo = new StreamReader($"levels/{file}");
+            
+            if(file != "levelblablba...")
+            {
+                // Código de lectura del archivo.
+            }
+            else
+            {
+                throw new Exception("El nivel seleccionado no existe.");
+            }
+
+            // Cerramos flujo.
+            archivo.Close();
+        }
     }
 }
