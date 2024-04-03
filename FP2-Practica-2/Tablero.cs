@@ -36,16 +36,31 @@ namespace FP2P2
 
         public Tablero(string file)
         {
-            // Abrimos flujo de archivo y se leen los niveles de levels/level0X.DAT.
-            StreamReader archivo = new StreamReader($"levels/{file}");
-            
-            if(file != "levelblablba...")
+            // Abrimos flujo de archivo y se leen los niveles de levels/level0X.dat. ¡¡¡Ojo, meter luego ($"levels/{file}")!!!
+            StreamReader archivo = new StreamReader($"levels/level00.dat");
+
+            /*if(file != "levelblablba...")
             {
                 // Código de lectura del archivo.
             }
             else
             {
                 throw new Exception("El nivel seleccionado no existe.");
+            }*/
+            
+            string leeCaracteres = "X"; // Condición de parada al encontrar al primer "no-número" (casilla en blanco).
+            int[,] matrizNumeros;
+
+            // Habrá dos lecturas:
+            // 1. Para determinar el tamaño de la matriz.
+            // 2. Para ir rellenando la matriz.
+
+            int tamaño = 0; // Inicialmente no sabemos el tamaño.
+
+            while (leeCaracteres != "")
+            {
+                tamaño++;
+                Console.WriteLine(tamaño);
             }
 
             // Cerramos flujo.
