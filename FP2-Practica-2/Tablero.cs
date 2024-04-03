@@ -37,21 +37,30 @@ namespace FP2P2
         public Tablero(string file)
         {
             // Para la comprobacion de la existencia del archivo File.Exist creo...
+            if (File.Exists(file))
+            {
+                // Meter aquí TODO el código del método una vez terminado (para no liar).
+            }
+            else
+            {
+                throw new Exception("No existe el nivel seleccionado.");
+            }
 
             // Abrimos flujo de archivo y se leen los niveles de levels/level0X.dat. ¡¡¡Ojo, meter luego ($"levels/{file}")!!!
-            StreamReader archivo = new StreamReader($"levels/level00.dat");
+            StreamReader archivo = new StreamReader($"levels/level01.dat");
 
             // Habrá dos lecturas:
             // 1. Para determinar el tamaño de la matriz.
-            int fils = SacaFilas( archivo );
-            int cols = SacaColumnas( archivo );
+            int fils = SacaFilas(archivo);
+            int cols = SacaColumnas(archivo);
+            Console.Write($"{fils} {cols}");
             int[,] tableroNumeros = new int[fils, cols];
 
-            // 2. Para ir rellenando la matriz.
+            // 2. Para ir rellenando la matriz. // Mirar a ver si la parte 2 está bien, ya que no la he comprobado.
             for (int i = 0; i < tableroNumeros.GetLength(0); i++)
             {
                 // Lee la fila actual.
-                string s = archivo.ReadLine() ;
+                string s = archivo.ReadLine();
 
                 // En el array v va almacenando el contenido de la fila actual pero sin los espacios. Se guardan los números.
                 string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -62,13 +71,30 @@ namespace FP2P2
                 for (int j = 0; j < tableroNumeros.GetLength(1); j++)
                 {
                     // Rellena.
-                    tableroNumeros[i,j] = myInts[j];
-                    Console.Write($"{tableroNumeros[i,j]} ");
+                    tableroNumeros[i, j] = myInts[j];
+                    Console.Write($"{tableroNumeros[i, j]} ");
                 }
             }
 
             // Cerramos flujo.
             archivo.Close();
+
+            /* FORMA QUE NO DEBERÍA DAR ERROR PERO ME PARECE POCO EFICIENTE
+
+            using (StreamReader archivo = new StreamReader($"levels/level01.dat"))
+            {
+                int fils = SacaFilas(archivo);
+                Console.Write($"{fils} ");
+            }
+
+            // Reopen the file and determine the number of columns.
+            using (StreamReader archivo = new StreamReader($"levels/level01.dat"))
+            {
+                int cols = SacaColumnas(archivo);
+                Console.Write($"{cols}");
+            }*/
+
+
         }
 
         #region Submétodos Tablero
