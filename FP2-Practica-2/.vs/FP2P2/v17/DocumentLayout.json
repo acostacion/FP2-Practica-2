@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Usuario\\Documents\\FP2-Practica-2\\FP2-Practica-2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|c:\\users\\usuario\\documents\\fp2-practica-2\\fp2-practica-2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|c:\\users\\usuario\\documents\\fp2-practica-2\\fp2-practica-2\\tablero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|solutionrelative:tablero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|c:\\users\\usuario\\documents\\fp2-practica-2\\fp2-practica-2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{08CF6254-5EF6-4B12-9736-48B6D1F3F851}|FP2P2.csproj|c:\\users\\usuario\\documents\\fp2-practica-2\\fp2-practica-2\\coor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,7 +25,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -65,8 +65,7 @@
               "RelativeToolTip": "..\\..\\..\\Downloads\\Program.cs",
               "ViewState": "AQIAAKUAAAAAAAAAAAAAALYAAACFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-03T13:53:18.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-03T13:53:18.062Z"
             },
             {
               "$type": "Document",
@@ -78,31 +77,30 @@
               "RelativeToolTip": "Coor.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-03T13:17:29.318Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-03T13:17:29.318Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Tablero.cs",
               "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\FP2-Practica-2\\FP2-Practica-2\\Tablero.cs",
               "RelativeDocumentMoniker": "Tablero.cs",
               "ToolTip": "C:\\Users\\Usuario\\Documents\\FP2-Practica-2\\FP2-Practica-2\\Tablero.cs",
               "RelativeToolTip": "Tablero.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAgwCYAAAAMAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAACQAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-03T13:15:07.538Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\FP2-Practica-2\\FP2-Practica-2\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Usuario\\Documents\\FP2-Practica-2\\FP2-Practica-2\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAowDQAAAAMAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwA4AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-03T12:38:03.998Z",
               "EditorCaption": ""
