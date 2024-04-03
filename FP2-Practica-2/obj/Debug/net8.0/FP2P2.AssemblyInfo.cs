@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FP2P2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6e5469e98add1882a27d429babed790123f8fb4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d13d82b143130ebd335105b815fe0c4085c6953b")]
 [assembly: System.Reflection.AssemblyProductAttribute("FP2P2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FP2P2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
