@@ -7,116 +7,210 @@ using System.Threading.Tasks;
 
 namespace FP2P2
 {
-    class Tablero
+  class Tablero
+  {
+    // contenido de las casillas
+    enum Casilla { Libre, Muro, Comida, Vitamina, MuroCelda };
+    // matriz de casillas (tablero)
+    Casilla[,] cas;
+
+    // representacion de los personajes (pacman y fantasmas)
+    struct Personaje
     {
-        // contenido de las casillas
-        enum Casilla { Libre, Muro, Comida, Vitamina, MuroCelda };
-        // matriz de casillas (tablero)
-        Casilla[,] cas;
-        // representacion de los personajes (pacman y fantasmas)
-        struct Personaje
-        {
-            public Coor pos, dir, // posicion y direccion actual
-            ini; // posicion inicial (para fantasmas)
-        }
-        // vector de personajes, 0 es pacman y el resto fantasmas
-        Personaje[] pers;
-        // colores para los personajes
-        ConsoleColor[] colors = {ConsoleColor.DarkYellow, 
-                                 ConsoleColor.Red,
-                                 ConsoleColor.Magenta, 
-                                 ConsoleColor.Cyan, 
-                                 ConsoleColor.DarkBlue };
-        const int lapCarcelFantasmas = 3000; // retardo para quitar el muro a los fantasmas
-        int lapFantasmas; // tiempo restante para quitar el muro
-        int numComida; // numero de casillas restantes con comida o vitamina
-        Random rnd; // generador de aleatorios
-                    // flag para mensajes de depuracion en consola
-        private bool DEBUG = true;
-
-        public Tablero(string file)
-        {
-            // Para la comprobacion de la existencia del archivo File.Exist creo...
-            if (File.Exists(file))
-            {
-                // Meter aquí TODO el código del método una vez terminado (para no liar).
-            }
-            else
-            {
-                throw new Exception("No existe el nivel seleccionado.");
-            }
-
-            // Abrimos flujo de archivo y se leen los niveles de levels/level0X.dat. ¡¡¡Ojo, meter luego ($"levels/{file}")!!!
-            StreamReader archivo = new StreamReader($"levels/level01.dat");
-
-            // Habrá dos lecturas:
-            // 1. Para determinar el tamaño de la matriz.
-            int fils = SacaFilas(archivo);
-            int cols = SacaColumnas(archivo);
-            Console.Write($"{fils} {cols}");
-            int[,] tableroNumeros = new int[fils, cols];
-
-            // 2. Para ir rellenando la matriz. // Mirar a ver si la parte 2 está bien, ya que no la he comprobado.
-            for (int i = 0; i < tableroNumeros.GetLength(0); i++)
-            {
-                // Lee la fila actual.
-                string s = archivo.ReadLine();
-
-                // En el array v va almacenando el contenido de la fila actual pero sin los espacios. Se guardan los números.
-                string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                // String -> Int.
-                int[] myInts = Array.ConvertAll(v, int.Parse);
-
-                for (int j = 0; j < tableroNumeros.GetLength(1); j++)
-                {
-                    // Rellena.
-                    tableroNumeros[i, j] = myInts[j];
-                    Console.Write($"{tableroNumeros[i, j]} ");
-                }
-            }
-
-            // Cerramos flujo.
-            archivo.Close();
-
-            /* FORMA QUE NO DEBERÍA DAR ERROR PERO ME PARECE POCO EFICIENTE
-
-            using (StreamReader archivo = new StreamReader($"levels/level01.dat"))
-            {
-                int fils = SacaFilas(archivo);
-                Console.Write($"{fils} ");
-            }
-
-            // Reopen the file and determine the number of columns.
-            using (StreamReader archivo = new StreamReader($"levels/level01.dat"))
-            {
-                int cols = SacaColumnas(archivo);
-                Console.Write($"{cols}");
-            }*/
-
-
-        }
-
-        #region Submétodos Tablero
-        private int SacaColumnas(StreamReader archivo)
-        {
-            int numCols = 0; // Inicialmente el tamaño es 0.
-            string leeCols = archivo.ReadLine().Replace(" ", ""); // Lee la linea y elimina los espacios en blanco.
-            numCols = leeCols.Length; // Saca la cantidad de columnas.
-            return numCols;
-        }
-
-        private int SacaFilas(StreamReader archivo)
-        {
-            int numFils = 1; // Empezamos a contar desde 1.
-
-            while(archivo.ReadLine() != null)
-            {
-                numFils++;
-            }
-
-            return numFils;
-        }
-        #endregion
+      public Coor pos, dir, // posicion y direccion actual
+      ini; // posicion inicial (para fantasmas)
     }
+    // vector de personajes, 0 es pacman y el resto fantasmas
+    Personaje[] pers;
+
+    // colores para los personajes
+    ConsoleColor[] colors = {ConsoleColor.DarkYellow,
+                                 ConsoleColor.Red,
+                                 ConsoleColor.Magenta,
+                                 ConsoleColor.Cyan,
+                                 ConsoleColor.DarkBlue };
+    const int lapCarcelFantasmas = 3000; // retardo para quitar el muro a los fantasmas
+    int lapFantasmas; // tiempo restante para quitar el muro
+    int numComida; // numero de casillas restantes con comida o vitamina
+    Random rnd; // generador de aleatorios
+                // flag para mensajes de depuracion en consola
+    private bool DEBUG = true;
+
+
+
+    public Tablero(string file)
+    {
+      // Para la comprobacion de la existencia del archivo File.Exist creo...
+      if (File.Exists(file))
+      {
+				int[,] tableroNumeros;
+        LeeNivel(file, out tableroNumeros);
+				InicializaCasyPers(cas, pers, tableroNumeros);
+				lapFantasmas = lapCarcelFantasmas;
+
+				if(DEBUG) rnd = new Random(100);
+				else rnd = new Random();
+
+			}
+      else
+      {
+        throw new Exception("No existe el nivel seleccionado.");
+      }
+    }
+
+		#region Submétodos Constructora
+		private void SacaSize(string file, out int numFils, out int numCols)
+		{
+			StreamReader archivo = new StreamReader(file);
+
+			numFils = 1; // Empezamos a contar desde 1.
+			numCols = 0;// Inicialmente el tamaño es 0.
+
+			string leeCols = archivo.ReadLine().Replace(" ", ""); // Lee la linea y elimina los espacios en blanco.
+			numCols = leeCols.Length; // Saca la cantidad de columnas.  
+
+			while (!archivo.EndOfStream)
+			{
+				numFils++;
+				archivo.ReadLine();
+			}
+
+			archivo.Close();
+		}
+
+    private void LeeNivel(string file, out int[,] tableroNumeros)
+    {
+			// Habrá dos lecturas:
+			// 1. Para determinar el tamaño de la matriz.
+			int numFils;
+			int numCols;
+			SacaSize(file, out numFils, out numCols);
+
+			tableroNumeros = new int[numFils, numCols];
+
+			// Abrimos flujo de archivo y se leen los niveles de levels/level0X.dat. ¡¡¡Ojo, meter luego ($"levels/{file}")!!!
+			StreamReader archivo = new StreamReader(file);
+
+			// 2. Para ir rellenando la matriz. 
+			for (int i = 0; i < tableroNumeros.GetLength(0); i++)
+			{
+				// Lee la fila actual.
+				string s = archivo.ReadLine();
+
+				// En el array v va almacenando el contenido de la fila actual pero sin los espacios. Se guardan los números.
+				string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+				// String -> Int.
+				int[] myInts = Array.ConvertAll(v, int.Parse);
+
+				for (int j = 0; j < tableroNumeros.GetLength(1); j++)
+				{
+					// Rellena.
+					tableroNumeros[i, j] = myInts[j];
+					Console.Write($"{tableroNumeros[i, j]} ");
+				}
+			}
+
+			// Cerramos flujo.
+			archivo.Close();
+		}
+
+		private void InicializaCasyPers(Casilla[,] cas, Personaje[] pers, int[,] tableroNumeros)
+		{
+			cas = new Casilla[tableroNumeros.GetLength (0), tableroNumeros.GetLength(1)];
+			pers = new Personaje[5];
+
+			for (int i = 0; i < tableroNumeros.GetLength(0); i++)
+			{
+				for(int j = 0; j < tableroNumeros.GetLength(1); j++)
+				{
+					switch(tableroNumeros[i, j]) 
+					{
+						case 0:
+							cas[i, j] = Casilla.Libre; break;
+						case 1:
+							cas[i, j] = Casilla.Muro; break;
+						case 2:
+							cas[i,j] = Casilla.Comida; break;
+						case 3:
+							cas[i, j] = Casilla.Vitamina; break;
+						case 4:
+							cas[i, j] = Casilla.MuroCelda; break;
+						case 5:
+							cas[i, j] = Casilla.Libre;
+							pers[1].ini = new Coor(i,j);
+							pers[1].pos = pers[1].ini;
+							pers[1].dir = new Coor(1,0);
+							break;
+						case 6:
+							cas[i, j] = Casilla.Libre;
+							pers[2].ini = new Coor(i,j);
+							pers[2].pos = pers[2].ini;
+							pers[2].dir = new Coor(1,0);
+							break;
+						case 7:
+							cas[i, j] = Casilla.Libre;
+							pers[3].ini = new Coor(i,j);
+							pers[3].pos = pers[3].ini;
+							pers[3].dir = new Coor(1,0);
+							break;
+						case 8:
+							cas[i, j] = Casilla.Libre;
+							pers[4].ini = new Coor(i,j);
+							pers[4].pos = pers[4].ini;
+							pers[4].dir = new Coor(1,0);
+							break;
+						case 9:
+							cas[i, j] = Casilla.Libre;
+							pers[0].ini = new Coor(i,j);
+							pers[0].pos = pers[0].ini;
+							pers[0].dir = new Coor(0,1);
+							break;
+					}
+
+
+				}
+
+			}
+		}
+		#endregion
+
+		public void Render()
+		{
+			for( int i = 0; i < cas.GetLength(0); i++ )
+			{
+				for ( int j = 0; j < cas.GetLength(1); j++ )
+				{
+					switch (cas[i,j] )
+					{
+						case Casilla.Libre:
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.Write("  "); 
+							break; // Luego mirar fantasmas y movidas.
+						case Casilla.Muro:
+							Console.BackgroundColor = ConsoleColor.White; 
+							Console.Write("  ");
+							break;
+						case Casilla.Comida:
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ForegroundColor = ConsoleColor.White;
+							Console.Write("··");
+							break;
+						case Casilla.Vitamina:
+							Console.BackgroundColor = ConsoleColor.Black;
+							Console.ForegroundColor = ConsoleColor.Green;
+							Console.Write("**");
+							break;
+						case Casilla.MuroCelda:
+							Console.BackgroundColor = ConsoleColor.Blue;
+							Console.Write("  ");
+							break;
+					}
+				}
+			}
+		}
+
+		#region Submétodos Render
+		#endregion
+	}
 }
