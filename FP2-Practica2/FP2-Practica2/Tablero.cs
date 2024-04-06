@@ -78,7 +78,7 @@ namespace FP2P2
 			archivo.Close();
 		}
 
-		private void LeeNivel(string file, out int[,] tableroNumeros) // Falla en tableroNumeros[i, j] = myInts[j] para los niveles [2 - 9]
+		private void LeeNivel(string file, out int[,] tableroNumeros) // Falla en tableroNumeros[i, j] = myInts[j] para los niveles [2 - 9]. Denisa dijo que era por el final del archivo.
         {
 			// Habrá dos lecturas:
 			// 1. Para determinar el tamaño de la matriz.
@@ -215,8 +215,8 @@ namespace FP2P2
             Console.SetCursorPosition(pers[0].pos.Y, pers[0].pos.X);
             Console.BackgroundColor = colors[0];
             Console.ForegroundColor = ConsoleColor.White;
-            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
-            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("VV"); }
+            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write("VV"); }
+            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
             else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
             else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
 
@@ -261,7 +261,40 @@ namespace FP2P2
 			}
 		}
 
-		#region Submétodos Render
-		#endregion
-	}
+        #region Submétodos Render
+        #endregion
+
+        private bool Siguiente(Coor pos, Coor dir, Coor newPos)
+		{
+			bool avanza = false;
+			newPos = new Coor(pos.X + dir.X, pos.Y + dir.Y);
+
+			// Hacer lo de que el personaje si escapa por un borde salga por otro.
+
+			if(cas[newPos.X, newPos.Y] != Casilla.Muro)
+			{
+				pos.X = newPos.X;
+				pos.Y = newPos.Y;
+				avanza = true;
+
+				if (pos.X == 0 && dir.X == -1)
+				{
+					newPos.X = cas.GetLength(0);
+				}
+				else if (pos.Y == 0 && dir.Y == -1)
+				{
+					newPos.Y = cas.GetLength(1);
+				}
+			}
+			else
+			{
+				pos.X = pos.X;
+				pos.Y = pos.Y;
+				avanza = false;
+			}
+
+			return avanza;
+		}
+
+    }
 }

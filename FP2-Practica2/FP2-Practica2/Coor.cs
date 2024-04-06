@@ -41,11 +41,10 @@ namespace FP2P2
             return new Coor(int.Parse(nums[0]), int.Parse(nums[1]));
         }
 
-        // igualdad y desigualdad de coordenadas
+        // igualdad y desigualdad de coordenadas.
         public static bool operator ==(Coor c1, Coor c2) { return c1.x == c2.x && c1.y == c2.y; }
 
         public static bool operator !=(Coor c1, Coor c2) { return c1.x != c2.x || c1.y != c2.y; }
-
     }
 }
 
