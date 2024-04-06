@@ -78,8 +78,8 @@ namespace FP2P2
 			archivo.Close();
 		}
 
-		private void LeeNivel(string file, out int[,] tableroNumeros)
-		{
+		private void LeeNivel(string file, out int[,] tableroNumeros) // Falla en tableroNumeros[i, j] = myInts[j] para los niveles [2 - 9]
+        {
 			// Habrá dos lecturas:
 			// 1. Para determinar el tamaño de la matriz.
 			int numFils;
@@ -183,9 +183,17 @@ namespace FP2P2
 					switch (cas[i, j])
 					{
 						case Casilla.Libre:
-							Console.BackgroundColor = ConsoleColor.Black;
+							Console.SetCursorPosition(pers[0].pos.X, pers[0].pos.Y);
+							Console.BackgroundColor = ConsoleColor.Yellow;
+							Console.ForegroundColor = ConsoleColor.White;
+							switch (pers[0].dir)
+							{
+								case Coo
+								
+							}
+							/*Console.BackgroundColor = ConsoleColor.Black;
 							Console.Write("  ");
-							break; // Luego mirar fantasmas y movidas.
+							break; // Luego mirar fantasmas y movidas.*/
 						case Casilla.Muro:
 							Console.BackgroundColor = ConsoleColor.White;
 							Console.Write("  ");
@@ -209,6 +217,19 @@ namespace FP2P2
 				Console.WriteLine();
 			}
 			Console.ResetColor();
+
+			if (DEBUG)
+			{
+				// Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
+				Console.WriteLine();
+				Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
+					$"\nFantasmas:" +
+					$"\n-F1: pos{pers[1].pos.ToString()} dir{pers[1].dir.ToString()}" +
+					$"\n-F2: pos{pers[2].pos.ToString()} dir{pers[2].dir.ToString()}" +
+					$"\n-F3: pos{pers[3].pos.ToString()} dir{pers[3].dir.ToString()}" +
+					$"\n-F4: pos{pers[4].pos.ToString()} dir{pers[4].dir.ToString()}"); 
+				Console.WriteLine();
+			}
 		}
 
 		#region Submétodos Render
