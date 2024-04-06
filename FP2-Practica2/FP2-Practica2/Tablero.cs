@@ -7,56 +7,56 @@ using System.Threading.Tasks;
 
 namespace FP2P2
 {
-  class Tablero
-  {
-    // contenido de las casillas
-    enum Casilla { Libre, Muro, Comida, Vitamina, MuroCelda };
-    // matriz de casillas (tablero)
-    Casilla[,] cas;
+	class Tablero
+	{
+		// contenido de las casillas
+		enum Casilla { Libre, Muro, Comida, Vitamina, MuroCelda };
+		// matriz de casillas (tablero)
+		Casilla[,] cas;
 
-    // representacion de los personajes (pacman y fantasmas)
-    struct Personaje
-    {
-      public Coor pos, dir, // posicion y direccion actual
-      ini; // posicion inicial (para fantasmas)
-    }
-    // vector de personajes, 0 es pacman y el resto fantasmas
-    Personaje[] pers;
+		// representacion de los personajes (pacman y fantasmas)
+		struct Personaje
+		{
+			public Coor pos, dir, // posicion y direccion actual
+			ini; // posicion inicial (para fantasmas)
+		}
+		// vector de personajes, 0 es pacman y el resto fantasmas
+		Personaje[] pers;
 
-    // colores para los personajes
-    ConsoleColor[] colors = {ConsoleColor.DarkYellow,
-                                 ConsoleColor.Red,
-                                 ConsoleColor.Magenta,
-                                 ConsoleColor.Cyan,
-                                 ConsoleColor.DarkBlue };
-    const int lapCarcelFantasmas = 3000; // retardo para quitar el muro a los fantasmas
-    int lapFantasmas; // tiempo restante para quitar el muro
-    int numComida; // numero de casillas restantes con comida o vitamina
-    Random rnd; // generador de aleatorios
-                // flag para mensajes de depuracion en consola
-    private bool DEBUG = true;
+		// colores para los personajes
+		ConsoleColor[] colors = {ConsoleColor.DarkYellow,
+								 ConsoleColor.Red,
+								 ConsoleColor.Magenta,
+								 ConsoleColor.Cyan,
+								 ConsoleColor.DarkBlue };
+		const int lapCarcelFantasmas = 3000; // retardo para quitar el muro a los fantasmas
+		int lapFantasmas; // tiempo restante para quitar el muro
+		int numComida; // numero de casillas restantes con comida o vitamina
+		Random rnd; // generador de aleatorios
+					// flag para mensajes de depuracion en consola
+		private bool DEBUG = true;
 
 
 
-    public Tablero(string file)
-    {
-      // Para la comprobacion de la existencia del archivo File.Exist creo...
-      if (File.Exists(file))
-      {
+		public Tablero(string file)
+		{
+			// Para la comprobacion de la existencia del archivo File.Exist creo...
+			if (File.Exists(file))
+			{
 				int[,] tableroNumeros;
-        LeeNivel(file, out tableroNumeros);
-				InicializaCasyPers(cas, pers, tableroNumeros);
+				LeeNivel(file, out tableroNumeros);
+				InicializaCasyPers(out cas, out pers, tableroNumeros);
 				lapFantasmas = lapCarcelFantasmas;
 
-				if(DEBUG) rnd = new Random(100);
+				if (DEBUG) rnd = new Random(100);
 				else rnd = new Random();
 
 			}
-      else
-      {
-        throw new Exception("No existe el nivel seleccionado.");
-      }
-    }
+			else
+			{
+				throw new Exception("No existe el nivel seleccionado.");
+			}
+		}
 
 		#region Submétodos Constructora
 		private void SacaSize(string file, out int numFils, out int numCols)
@@ -78,8 +78,8 @@ namespace FP2P2
 			archivo.Close();
 		}
 
-    private void LeeNivel(string file, out int[,] tableroNumeros)
-    {
+		private void LeeNivel(string file, out int[,] tableroNumeros)
+		{
 			// Habrá dos lecturas:
 			// 1. Para determinar el tamaño de la matriz.
 			int numFils;
@@ -107,7 +107,6 @@ namespace FP2P2
 				{
 					// Rellena.
 					tableroNumeros[i, j] = myInts[j];
-					Console.Write($"{tableroNumeros[i, j]} ");
 				}
 			}
 
@@ -115,56 +114,56 @@ namespace FP2P2
 			archivo.Close();
 		}
 
-		private void InicializaCasyPers(Casilla[,] cas, Personaje[] pers, int[,] tableroNumeros)
+		private void InicializaCasyPers(out Casilla[,] cas, out Personaje[] pers, int[,] tableroNumeros)
 		{
-			cas = new Casilla[tableroNumeros.GetLength (0), tableroNumeros.GetLength(1)];
+			cas = new Casilla[tableroNumeros.GetLength(0), tableroNumeros.GetLength(1)];
 			pers = new Personaje[5];
 
 			for (int i = 0; i < tableroNumeros.GetLength(0); i++)
 			{
-				for(int j = 0; j < tableroNumeros.GetLength(1); j++)
+				for (int j = 0; j < tableroNumeros.GetLength(1); j++)
 				{
-					switch(tableroNumeros[i, j]) 
+					switch (tableroNumeros[i, j])
 					{
 						case 0:
 							cas[i, j] = Casilla.Libre; break;
 						case 1:
 							cas[i, j] = Casilla.Muro; break;
 						case 2:
-							cas[i,j] = Casilla.Comida; break;
+							cas[i, j] = Casilla.Comida; break;
 						case 3:
 							cas[i, j] = Casilla.Vitamina; break;
 						case 4:
 							cas[i, j] = Casilla.MuroCelda; break;
 						case 5:
 							cas[i, j] = Casilla.Libre;
-							pers[1].ini = new Coor(i,j);
+							pers[1].ini = new Coor(i, j);
 							pers[1].pos = pers[1].ini;
-							pers[1].dir = new Coor(1,0);
+							pers[1].dir = new Coor(1, 0);
 							break;
 						case 6:
 							cas[i, j] = Casilla.Libre;
-							pers[2].ini = new Coor(i,j);
+							pers[2].ini = new Coor(i, j);
 							pers[2].pos = pers[2].ini;
-							pers[2].dir = new Coor(1,0);
+							pers[2].dir = new Coor(1, 0);
 							break;
 						case 7:
 							cas[i, j] = Casilla.Libre;
-							pers[3].ini = new Coor(i,j);
+							pers[3].ini = new Coor(i, j);
 							pers[3].pos = pers[3].ini;
-							pers[3].dir = new Coor(1,0);
+							pers[3].dir = new Coor(1, 0);
 							break;
 						case 8:
 							cas[i, j] = Casilla.Libre;
-							pers[4].ini = new Coor(i,j);
+							pers[4].ini = new Coor(i, j);
 							pers[4].pos = pers[4].ini;
-							pers[4].dir = new Coor(1,0);
+							pers[4].dir = new Coor(1, 0);
 							break;
 						case 9:
 							cas[i, j] = Casilla.Libre;
-							pers[0].ini = new Coor(i,j);
+							pers[0].ini = new Coor(i, j);
 							pers[0].pos = pers[0].ini;
-							pers[0].dir = new Coor(0,1);
+							pers[0].dir = new Coor(0, 1);
 							break;
 					}
 
@@ -177,18 +176,18 @@ namespace FP2P2
 
 		public void Render()
 		{
-			for( int i = 0; i < cas.GetLength(0); i++ )
+			for (int i = 0; i < cas.GetLength(0); i++)
 			{
-				for ( int j = 0; j < cas.GetLength(1); j++ )
+				for (int j = 0; j < cas.GetLength(1); j++)
 				{
-					switch (cas[i,j] )
+					switch (cas[i, j])
 					{
 						case Casilla.Libre:
 							Console.BackgroundColor = ConsoleColor.Black;
-							Console.Write("  "); 
+							Console.Write("  ");
 							break; // Luego mirar fantasmas y movidas.
 						case Casilla.Muro:
-							Console.BackgroundColor = ConsoleColor.White; 
+							Console.BackgroundColor = ConsoleColor.White;
 							Console.Write("  ");
 							break;
 						case Casilla.Comida:
@@ -207,7 +206,9 @@ namespace FP2P2
 							break;
 					}
 				}
+				Console.WriteLine();
 			}
+			Console.ResetColor();
 		}
 
 		#region Submétodos Render

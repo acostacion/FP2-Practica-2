@@ -3,16 +3,16 @@
 
 namespace FP2P2
 {
-  internal class Program
-  {
-    
-
-    static void Main(string[] args)
+    internal class Program
     {
-      string file = "levels/level01.dat";
-			Tablero tab = new Tablero(file);
-			tab.Render();
-		}
 
-  }
+
+        static void Main(string[] args)
+        {
+            string file = "levels/level01.dat";
+            Tablero tab = new Tablero(file);
+            tab.Render();
+        }
+
+    }
 }
