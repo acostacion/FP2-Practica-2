@@ -176,42 +176,55 @@ namespace FP2P2
 
 		public void Render()
 		{
-			for (int i = 0; i < cas.GetLength(0); i++)
-			{
-				for (int j = 0; j < cas.GetLength(1); j++)
-				{
-					switch (cas[i, j])
-					{
-						case Casilla.Libre:
+			RenderTablero();
+
+			RenderPersonajes();
+
+            RenderDebug();
+		}
+
+		#region Submétodos Render
+		private void RenderTablero()
+		{
+            for (int i = 0; i < cas.GetLength(0); i++)
+            {
+                for (int j = 0; j < cas.GetLength(1); j++)
+                {
+                    switch (cas[i, j])
+                    {
+                        case Casilla.Libre:
                             Console.BackgroundColor = ConsoleColor.Black;
-							Console.Write("  ");
-							break; // Luego mirar fantasmas y movidas.
+                            Console.Write("  ");
+                            break; // Luego mirar fantasmas y movidas.
                         case Casilla.Muro:
-							Console.BackgroundColor = ConsoleColor.White;
-							Console.Write("  ");
-							break;
-						case Casilla.Comida:
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ForegroundColor = ConsoleColor.White;
-							Console.Write("··");
-							break;
-						case Casilla.Vitamina:
-							Console.BackgroundColor = ConsoleColor.Black;
-							Console.ForegroundColor = ConsoleColor.Green;
-							Console.Write("**");
-							break;
-						case Casilla.MuroCelda:
-							Console.BackgroundColor = ConsoleColor.Blue;
-							Console.Write("  ");
-							break;
-					}
-				}
-				Console.WriteLine();
-			}
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.Write("  ");
+                            break;
+                        case Casilla.Comida:
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("··");
+                            break;
+                        case Casilla.Vitamina:
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("**");
+                            break;
+                        case Casilla.MuroCelda:
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("  ");
+                            break;
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
 
-			// ¡¡¡ OJO, CONSOLESETCURSORPOSITION ESTÁ INVERTIDO!!!
+		private void RenderPersonajes()
+		{
+            // ¡¡¡ OJO, CONSOLESETCURSORPOSITION ESTÁ INVERTIDO!!!
 
-			// Pacman.
+            // Pacman.
             Console.SetCursorPosition(pers[0].pos.Y, pers[0].pos.X);
             Console.BackgroundColor = colors[0];
             Console.ForegroundColor = ConsoleColor.White;
@@ -220,11 +233,11 @@ namespace FP2P2
             else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
             else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
 
-			// Fantasma rojo.
-			Console.SetCursorPosition(pers[1].pos.Y, pers[1].pos.X);
-			Console.BackgroundColor = colors[1];
-			Console.ForegroundColor = ConsoleColor.White;
-			Console.Write("ºº");
+            // Fantasma rojo.
+            Console.SetCursorPosition(pers[1].pos.Y, pers[1].pos.X);
+            Console.BackgroundColor = colors[1];
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("ºº");
 
             // Fantasma magenta.
             Console.SetCursorPosition(pers[2].pos.Y, pers[2].pos.X);
@@ -243,40 +256,44 @@ namespace FP2P2
             Console.BackgroundColor = colors[4];
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("ºº");
+        }
 
+		private void RenderDebug()
+		{
             Console.SetCursorPosition(0, cas.GetLength(0));
-			Console.ResetColor();
+            Console.ResetColor();
 
-			if (DEBUG)
-			{
-				// Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
-				Console.WriteLine();
-				Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
-					$"\nFantasmas:" +
-					$"\n-F1: pos{pers[1].pos.ToString()} dir{pers[1].dir.ToString()}" +
-					$"\n-F2: pos{pers[2].pos.ToString()} dir{pers[2].dir.ToString()}" +
-					$"\n-F3: pos{pers[3].pos.ToString()} dir{pers[3].dir.ToString()}" +
-					$"\n-F4: pos{pers[4].pos.ToString()} dir{pers[4].dir.ToString()}"); 
-				Console.WriteLine();
-			}
-		}
-
-        #region Submétodos Render
+            if (DEBUG)
+            {
+                // Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
+                Console.WriteLine();
+                Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
+                    $"\nFantasmas:" +
+                    $"\n-F1: pos{pers[1].pos.ToString()} dir{pers[1].dir.ToString()}" +
+                    $"\n-F2: pos{pers[2].pos.ToString()} dir{pers[2].dir.ToString()}" +
+                    $"\n-F3: pos{pers[3].pos.ToString()} dir{pers[3].dir.ToString()}" +
+                    $"\n-F4: pos{pers[4].pos.ToString()} dir{pers[4].dir.ToString()}");
+                Console.WriteLine();
+            }
+        }
         #endregion
 
-        private bool Siguiente(Coor pos, Coor dir, Coor newPos)
+        private bool Siguiente(ref Coor pos, ref Coor dir, Coor newPos)
 		{
 			bool avanza = false;
 			newPos = new Coor(pos.X + dir.X, pos.Y + dir.Y);
 
 			// Hacer lo de que el personaje si escapa por un borde salga por otro.
 
+			// Si en la newPos no hay muro...
 			if(cas[newPos.X, newPos.Y] != Casilla.Muro)
 			{
+				// Actualizamos a nueva posición.
 				pos.X = newPos.X;
 				pos.Y = newPos.Y;
 				avanza = true;
 
+				// Lo de que aparezca por otro lado.
 				if (pos.X == 0 && dir.X == -1)
 				{
 					newPos.X = cas.GetLength(0);
@@ -285,15 +302,30 @@ namespace FP2P2
 				{
 					newPos.Y = cas.GetLength(1);
 				}
+				else if (pos.X == cas.GetLength(0) && dir.X == 1)
+				{
+					newPos.X = 0;
+				}
+				else if (pos.Y == cas.GetLength(1) && dir.Y == 1)
+				{
+					newPos.Y = 0;
+				}
 			}
 			else
 			{
+				// No cambia la posición.
 				pos.X = pos.X;
 				pos.Y = pos.Y;
 				avanza = false;
 			}
 
+			// Dice si ha podido avanzar o no.
 			return avanza;
+		}
+
+		private void MuevePacman()
+		{
+
 		}
 
     }
