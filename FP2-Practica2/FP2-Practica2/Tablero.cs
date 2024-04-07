@@ -288,11 +288,13 @@ namespace FP2P2
 			// Si en la newPos no hay muro...
 			if(cas[newPos.X, newPos.Y] != Casilla.Muro)
 			{
-				// Actualizamos a nueva posición.
+				// Se mueve el pacman (mirar lo de MuevePacman).
 				pos.X = newPos.X;
 				pos.Y = newPos.Y;
 				avanza = true;
 
+				if (cas[newPos.X, newPos.Y] == Casilla.Vitamina || cas[newPos.X, newPos.Y] == Casilla.Comida) { numComida--; }
+				
 				// Lo de que aparezca por otro lado.
 				if (pos.X == 0 && dir.X == -1)
 				{
@@ -325,8 +327,53 @@ namespace FP2P2
 
 		private void MuevePacman()
 		{
-
+			// He hecho una "METAMORFOSIS" y he mezclado MuevePacman con Siguiente porque no entiendo muy bien el enunciado.
 		}
+
+		private bool CambiaDir(char c)
+		{
+			Coor newPos = new Coor();
+
+			if(Siguiente(ref pers[0].pos, ref pers[0].dir, newPos))
+			{
+                switch (c)
+                {
+                    case 'l':
+                        pers[0].dir.X = 0;
+                        pers[0].dir.Y = -1;
+                        break;
+                    case 'r':
+                        pers[0].dir.X = 0;
+                        pers[0].dir.Y = 1;
+                        break;
+                    case 'u':
+                        pers[0].dir.X = -1;
+                        pers[0].dir.Y = 0;
+                        break;
+                    case 'd':
+                        pers[0].dir.X = 1;
+                        pers[0].dir.Y = 0;
+                        break;
+                }
+            }
+		}
+
+        static void LeeInput(ref char dir)
+        {
+            if (Console.KeyAvailable)
+            {
+                string tecla = Console.ReadKey(true).Key.ToString();
+                switch (tecla)
+                {
+                    case "LeftArrow": dir = 'l'; break;
+                    case "UpArrow": dir = 'u'; break;
+                    case "RightArrow": dir = 'r'; break;
+                    case "DownArrow": dir = 'd'; break;
+                }
+            }
+            while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
+        }
+
 
     }
 }
