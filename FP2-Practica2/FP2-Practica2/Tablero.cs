@@ -74,7 +74,7 @@ namespace FP2P2
 			archivo.Close();
 		}
 
-		private void LeeNivel(string file, out int[,] tableroNumeros) // Falla en tableroNumeros[i, j] = myInts[j] para los niveles [2 - 9]. Denisa dijo que era por el final del archivo.
+		private void LeeNivel(string file, out int[,] tableroNumeros)
         {
 			// Habrá dos lecturas:
 			// 1. Para determinar el tamaño de la matriz.
