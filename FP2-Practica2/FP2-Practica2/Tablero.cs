@@ -103,7 +103,6 @@ namespace FP2P2
 					tableroNumeros[i, j] = int.Parse(v[j]);
 				}
 			}
-
 			// Cerramos flujo.
 			archivo.Close();
 		}
@@ -131,39 +130,36 @@ namespace FP2P2
 							cas[i, j] = Casilla.MuroCelda; break;
 						case 5:
 							cas[i, j] = Casilla.Libre;
-							pers[1].ini = new Coor(i, 2*j);
+							pers[1].ini = new Coor(i, j);
 							pers[1].pos = pers[1].ini;
 							pers[1].dir = new Coor(1, 0);
 							break;
 						case 6:
 							cas[i, j] = Casilla.Libre;
-							pers[2].ini = new Coor(i, 2 * j);
+							pers[2].ini = new Coor(i, j);
 							pers[2].pos = pers[2].ini;
 							pers[2].dir = new Coor(1, 0);
 							break;
 						case 7:
 							cas[i, j] = Casilla.Libre;
-							pers[3].ini = new Coor(i, 2 * j);
+							pers[3].ini = new Coor(i, j);
 							pers[3].pos = pers[3].ini;
 							pers[3].dir = new Coor(1, 0);
 							break;
 						case 8:
 							cas[i, j] = Casilla.Libre;
-							pers[4].ini = new Coor(i, 2 * j);
+							pers[4].ini = new Coor(i, j);
 							pers[4].pos = pers[4].ini;
 							pers[4].dir = new Coor(1, 0);
 							break;
 						case 9:
 							cas[i, j] = Casilla.Libre;
-							pers[0].ini = new Coor(i, 2	* j);
+							pers[0].ini = new Coor(i, j);
 							pers[0].pos = pers[0].ini;
 							pers[0].dir = new Coor(0, 1);
 							break;
 					}
-
-
 				}
-
 			}
 		}
 		#endregion
@@ -219,7 +215,7 @@ namespace FP2P2
             // ¡¡¡ OJO, CONSOLESETCURSORPOSITION ESTÁ INVERTIDO!!!
 
             // Pacman.
-            Console.SetCursorPosition(pers[0].pos.Y, pers[0].pos.X);
+            Console.SetCursorPosition(pers[0].pos.Y * 2, pers[0].pos.X);
             Console.BackgroundColor = colors[0];
             Console.ForegroundColor = ConsoleColor.White;
             if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write("VV"); }
@@ -228,25 +224,25 @@ namespace FP2P2
             else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
 
             // Fantasma rojo.
-            Console.SetCursorPosition(pers[1].pos.Y, pers[1].pos.X);
+            Console.SetCursorPosition(pers[1].pos.Y * 2, pers[1].pos.X);
             Console.BackgroundColor = colors[1];
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("ºº");
 
             // Fantasma magenta.
-            Console.SetCursorPosition(pers[2].pos.Y, pers[2].pos.X);
+            Console.SetCursorPosition(pers[2].pos.Y * 2, pers[2].pos.X);
             Console.BackgroundColor = colors[2];
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("ºº");
 
             // Fantasma cyan.
-            Console.SetCursorPosition(pers[3].pos.Y, pers[3].pos.X);
+            Console.SetCursorPosition(pers[3].pos.Y * 2, pers[3].pos.X);
             Console.BackgroundColor = colors[3];
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("ºº");
 
             // Fantasma azul.
-            Console.SetCursorPosition(pers[4].pos.Y, pers[4].pos.X);
+            Console.SetCursorPosition(pers[4].pos.Y * 2, pers[4].pos.X);
             Console.BackgroundColor = colors[4];
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("ºº");
