@@ -40,11 +40,10 @@ namespace FP2P2
 
 		public Tablero(string file)
 		{
-			// Para la comprobacion de la existencia del archivo File.Exist creo...
+			// Para la comprobacion de la existencia del archivo
 			if (File.Exists(file))
 			{
-				int[,] tableroNumeros;
-				LeeNivel(file, out tableroNumeros);
+				LeeNivel(file, out int[,] tableroNumeros);
 				InicializaCasyPers(out cas, out pers, tableroNumeros);
 				lapFantasmas = lapCarcelFantasmas;
 
@@ -63,17 +62,15 @@ namespace FP2P2
 		{
 			StreamReader archivo = new StreamReader(file);
 
+			string s = archivo.ReadLine().Replace(" ", ""); // Lee la linea y elimina los espacios en blanco.
+			numCols = s.Length; // Saca la cantidad de columnas.  
 			numFils = 1; // Empezamos a contar desde 1.
-			numCols = 0;// Inicialmente el tamaño es 0.
-
-			string leeCols = archivo.ReadLine().Replace(" ", ""); // Lee la linea y elimina los espacios en blanco.
-			numCols = leeCols.Length; // Saca la cantidad de columnas.  
 
 			while (!archivo.EndOfStream)
 			{
-				numFils++;
-				archivo.ReadLine();
-			}
+				if(archivo.ReadLine().Replace(" ", "") != "")
+					numFils++;
+            }
 
 			archivo.Close();
 		}
@@ -100,13 +97,10 @@ namespace FP2P2
 				// En el array v va almacenando el contenido de la fila actual pero sin los espacios. Se guardan los números.
 				string[] v = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-				// String -> Int.
-				int[] myInts = Array.ConvertAll(v, int.Parse);
-
 				for (int j = 0; j < tableroNumeros.GetLength(1); j++)
 				{
-					// Rellena.
-					tableroNumeros[i, j] = myInts[j];
+					// Parsea a int y rellena.
+					tableroNumeros[i, j] = int.Parse(v[j]);
 				}
 			}
 
@@ -330,33 +324,33 @@ namespace FP2P2
 			// He hecho una "METAMORFOSIS" y he mezclado MuevePacman con Siguiente porque no entiendo muy bien el enunciado.
 		}
 
-		private bool CambiaDir(char c)
-		{
-			Coor newPos = new Coor();
+		//private bool CambiaDir(char c)
+		//{
+		//	Coor newPos = new Coor();
 
-			if(Siguiente(ref pers[0].pos, ref pers[0].dir, newPos))
-			{
-                switch (c)
-                {
-                    case 'l':
-                        pers[0].dir.X = 0;
-                        pers[0].dir.Y = -1;
-                        break;
-                    case 'r':
-                        pers[0].dir.X = 0;
-                        pers[0].dir.Y = 1;
-                        break;
-                    case 'u':
-                        pers[0].dir.X = -1;
-                        pers[0].dir.Y = 0;
-                        break;
-                    case 'd':
-                        pers[0].dir.X = 1;
-                        pers[0].dir.Y = 0;
-                        break;
-                }
-            }
-		}
+		//	if(Siguiente(ref pers[0].pos, ref pers[0].dir, newPos))
+		//	{
+  //              switch (c)
+  //              {
+  //                  case 'l':
+  //                      pers[0].dir.X = 0;
+  //                      pers[0].dir.Y = -1;
+  //                      break;
+  //                  case 'r':
+  //                      pers[0].dir.X = 0;
+  //                      pers[0].dir.Y = 1;
+  //                      break;
+  //                  case 'u':
+  //                      pers[0].dir.X = -1;
+  //                      pers[0].dir.Y = 0;
+  //                      break;
+  //                  case 'd':
+  //                      pers[0].dir.X = 1;
+  //                      pers[0].dir.Y = 0;
+  //                      break;
+  //              }
+  //          }
+		//}
 
         static void LeeInput(ref char dir)
         {
