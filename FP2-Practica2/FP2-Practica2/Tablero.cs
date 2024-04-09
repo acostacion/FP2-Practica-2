@@ -37,8 +37,8 @@ namespace FP2P2
 		private bool DEBUG = true;
 
 
-
-		public Tablero(string file)
+        #region 1.Lectura de nivel y renderizado
+        public Tablero(string file)
 		{
 			// Para la comprobacion de la existencia del archivo
 			if (File.Exists(file))
@@ -71,7 +71,6 @@ namespace FP2P2
 				if(archivo.ReadLine().Replace(" ", "") != "")
 					numFils++;
             }
-
 			archivo.Close();
 		}
 
@@ -166,11 +165,14 @@ namespace FP2P2
 
 		public void Render()
 		{
+			Console.Clear();
+			Console.ResetColor();
+
 			RenderTablero();
 
 			RenderPersonajes();
 
-            RenderDebug();
+			if (DEBUG) RenderDebug();
 		}
 
 		#region Submétodos Render
@@ -218,10 +220,10 @@ namespace FP2P2
             Console.SetCursorPosition(pers[0].pos.Y * 2, pers[0].pos.X);
             Console.BackgroundColor = colors[0];
             Console.ForegroundColor = ConsoleColor.White;
-            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write("VV"); }
-            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
-            else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
-            else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
+            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write(">>"); }
+            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("<<"); }
+            else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write("^^"); }
+            else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("VV"); }
 
             // Fantasma rojo.
             Console.SetCursorPosition(pers[1].pos.Y * 2, pers[1].pos.X);
@@ -250,120 +252,106 @@ namespace FP2P2
 
 		private void RenderDebug()
 		{
-            Console.SetCursorPosition(0, cas.GetLength(0));
+            Console.SetCursorPosition(0, cas.GetLength(0) + 2);
             Console.ResetColor();
 
-            if (DEBUG)
-            {
-                // Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
-                Console.WriteLine();
-                Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
-                    $"\nFantasmas:" +
-                    $"\n-F1: pos{pers[1].pos.ToString()} dir{pers[1].dir.ToString()}" +
-                    $"\n-F2: pos{pers[2].pos.ToString()} dir{pers[2].dir.ToString()}" +
-                    $"\n-F3: pos{pers[3].pos.ToString()} dir{pers[3].dir.ToString()}" +
-                    $"\n-F4: pos{pers[4].pos.ToString()} dir{pers[4].dir.ToString()}");
-                Console.WriteLine();
-            }
+            // Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
+            Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
+                $"\nFantasmas:" +
+                $"\n-F1: pos{pers[1].pos.ToString()} dir{pers[1].dir.ToString()}" +
+                $"\n-F2: pos{pers[2].pos.ToString()} dir{pers[2].dir.ToString()}" +
+                $"\n-F3: pos{pers[3].pos.ToString()} dir{pers[3].dir.ToString()}" +
+                $"\n-F4: pos{pers[4].pos.ToString()} dir{pers[4].dir.ToString()}");
+            Console.WriteLine();            
         }
         #endregion
+        #endregion
 
-        private bool Siguiente(ref Coor pos, ref Coor dir, Coor newPos)
+        #region 2.Movimiento de Pacman
+        // Calcula la siguiente posición en la dirección de movimiento. Devuelve true si puede moverse, false si hay un muro
+        private bool Siguiente(Coor pos, Coor dir, out Coor newPos)
 		{
-			bool avanza = false;
+
 			newPos = new Coor(pos.X + dir.X, pos.Y + dir.Y);
+			// newPos = pos + dir
 
-			// Hacer lo de que el personaje si escapa por un borde salga por otro.
+			// Si el personaje escapa por un borde sale por otro.
+			if (newPos.X < 0) newPos.X = cas.GetLength(1) - 1;
+			else if (newPos.X > cas.GetLength(1)) newPos.X = 0;
+			else if (newPos.Y < 0) newPos.Y = cas.GetLength(0) - 1;
+			else if (newPos.Y > cas.GetLength(1)) newPos.Y = 0;
 
-			// Si en la newPos no hay muro...
-			if(cas[newPos.X, newPos.Y] != Casilla.Muro)
-			{
-				// Se mueve el pacman (mirar lo de MuevePacman).
-				pos.X = newPos.X;
-				pos.Y = newPos.Y;
-				avanza = true;
+            // Si en la newPos no hay muro...
+            bool avanza = false;
+            if (cas[newPos.X, newPos.Y] != Casilla.Muro && cas[newPos.X, newPos.Y] != Casilla.MuroCelda) avanza = true;
 
-				if (cas[newPos.X, newPos.Y] == Casilla.Vitamina || cas[newPos.X, newPos.Y] == Casilla.Comida) { numComida--; }
-				
-				// Lo de que aparezca por otro lado.
-				if (pos.X == 0 && dir.X == -1)
-				{
-					newPos.X = cas.GetLength(0);
-				}
-				else if (pos.Y == 0 && dir.Y == -1)
-				{
-					newPos.Y = cas.GetLength(1);
-				}
-				else if (pos.X == cas.GetLength(0) && dir.X == 1)
-				{
-					newPos.X = 0;
-				}
-				else if (pos.Y == cas.GetLength(1) && dir.Y == 1)
-				{
-					newPos.Y = 0;
-				}
-			}
-			else
-			{
-				// No cambia la posición.
-				pos.X = pos.X;
-				pos.Y = pos.Y;
-				avanza = false;
-			}
-
-			// Dice si ha podido avanzar o no.
 			return avanza;
 		}
 
-		private void MuevePacman()
+		public void MuevePacman()
 		{
-			// He hecho una "METAMORFOSIS" y he mezclado MuevePacman con Siguiente porque no entiendo muy bien el enunciado.
-		}
+			if(Siguiente(pers[0].pos, pers[0].dir, out Coor newPos))
+			{
+				// Se mueve Pacman
+				pers[0].pos = newPos;
 
-		//private bool CambiaDir(char c)
-		//{
-		//	Coor newPos = new Coor();
+				if (cas[newPos.X, newPos.Y] == Casilla.Vitamina || cas[newPos.X, newPos.Y] == Casilla.Comida)
+				{
+					numComida--;
+					cas[newPos.X, newPos.Y] = Casilla.Libre;
 
-		//	if(Siguiente(ref pers[0].pos, ref pers[0].dir, newPos))
-		//	{
-  //              switch (c)
-  //              {
-  //                  case 'l':
-  //                      pers[0].dir.X = 0;
-  //                      pers[0].dir.Y = -1;
-  //                      break;
-  //                  case 'r':
-  //                      pers[0].dir.X = 0;
-  //                      pers[0].dir.Y = 1;
-  //                      break;
-  //                  case 'u':
-  //                      pers[0].dir.X = -1;
-  //                      pers[0].dir.Y = 0;
-  //                      break;
-  //                  case 'd':
-  //                      pers[0].dir.X = 1;
-  //                      pers[0].dir.Y = 0;
-  //                      break;
-  //              }
-  //          }
-		//}
-
-        static void LeeInput(ref char dir)
-        {
-            if (Console.KeyAvailable)
-            {
-                string tecla = Console.ReadKey(true).Key.ToString();
-                switch (tecla)
-                {
-                    case "LeftArrow": dir = 'l'; break;
-                    case "UpArrow": dir = 'u'; break;
-                    case "RightArrow": dir = 'r'; break;
-                    case "DownArrow": dir = 'd'; break;
                 }
-            }
-            while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
+			}
         }
 
+		public bool CambiaDir(char c)
+		{
+			bool dirCambiada = false;
+			Coor newPos;
+			switch (c)
+			{
+				case 'l':
+					Coor l = new Coor(-1, 0);
+                    if (Siguiente(pers[0].pos, l, out newPos))
+					{
+                        pers[0].dir = l;
+						dirCambiada = true;
+					}
+					break;
 
-    }
+				case 'r':
+					Coor r = new Coor(1, 0);
+                    if (Siguiente(pers[0].pos, r, out newPos))
+                    {
+                        pers[0].dir = r;
+                        dirCambiada = true;
+                    }
+                    break;
+
+				case 'u':
+					Coor u = new Coor(0, -1);
+                    if (Siguiente(pers[0].pos, u, out newPos))
+                    {
+						pers[0].dir = u;
+                        dirCambiada = true;
+                    }
+                    break;
+
+                case 'd':
+					Coor d = new Coor(0, 1);
+                    if (Siguiente(pers[0].pos, d, out newPos))
+                    {
+						pers[0].dir = d;
+                        dirCambiada = true;
+                    }
+                    break;
+            }
+			return dirCambiada;
+		}
+		#endregion
+
+		#region 3.Movimiento de los fantasmas
+
+		#endregion
+	}
 }

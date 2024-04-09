@@ -10,8 +10,44 @@ namespace FP2P2
         static void Main(string[] args)
         {
             string file = "levels/level00.dat";
-            Tablero tab = new Tablero(file);
-            tab.Render();
+            Tablero t = new Tablero(file);
+            t.Render();
+
+            int lap = 200; // retardo para bucle ppal
+            char c = ' ';
+
+            while (true) {
+                // input de usuario
+                LeeInput(ref c);
+                // procesamiento del input
+                if (c !=' ' && t.CambiaDir(c)) c =' ';
+
+                t.MuevePacman();
+
+                // IA de los fantasmas: TODO
+
+                // rederizado
+                t.Render();
+
+                // retardo
+                System.Threading.Thread.Sleep(lap);
+            }
+        }
+
+        static void LeeInput(ref char dir)
+        {
+            if (Console.KeyAvailable)
+            {
+                string tecla = Console.ReadKey(true).Key.ToString();
+                switch (tecla)
+                {
+                    case "LeftArrow": dir = 'l'; break;
+                    case "UpArrow": dir = 'u'; break;
+                    case "RightArrow": dir = 'r'; break;
+                    case "DownArrow": dir = 'd'; break;
+                }
+            }
+            while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
         }
 
     }
