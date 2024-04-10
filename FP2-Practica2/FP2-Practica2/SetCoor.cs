@@ -10,6 +10,9 @@ class SetCoor{
         oc = 0;
     }
 
+    // Accesores
+    public Coor[] Coors { get { return coors;}}
+
     // método privado. Busca elto en el array y devuelve su posición
     // -1 si no está
     private int SearchElem(Coor c){
@@ -50,7 +53,7 @@ class SetCoor{
     }
 
 
-    // extrae un elto cualquiera del cto (no hay orden)
+    // extrae el último elemento del cto
     public Coor PopElem(){
         if (oc==0) throw new Exception("Error SetCoor.GetElem: empty set");
         else {

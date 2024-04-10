@@ -358,58 +358,40 @@ namespace FP2P2
 		{
 			bool hayFantasma = false;
 
-			for (int i = 1; i < pers.Length; i++)
+			int i = 1;
+			while(!hayFantasma && i < pers.Length)
 			{
-				if (pers[i].pos == c) { hayFantasma = true; }
-			}
+				hayFantasma = pers[i].pos == c;
+            }
 
 			return hayFantasma;
 		}
 
-		//private int PosiblesDirs(int fant, out SetCoor cs) 
-		//{
-		//	cs = new SetCoor();
-			
-		//	// Nueva posición y direcciones.
-		//	Coor newPos;
+		private int PosiblesDirs(int fant, out SetCoor cs)
+		{
+			cs = new SetCoor(4);
 
-		//	// Van en orden.
-  //          Coor abajo = new Coor(1, 0);
-  //          Coor derecha = new Coor(0, 1);
-  //          Coor arriba = new Coor(-1, 0);
-		//	Coor izquierda = new Coor (0, -1);
+			// Nueva posición y direcciones.
+			Coor newPos;
 
-  //          SetCoor direcciones = new SetCoor();
-  //          direcciones.Add(abajo);
-  //          direcciones.Add(derecha);
-  //          direcciones.Add(arriba);
-  //          direcciones.Add(izquierda);
+			// Van en orden.
+			Coor abajo = new Coor(1, 0);
+			Coor derecha = new Coor(0, 1);
+			Coor arriba = new Coor(-1, 0);
+			Coor izquierda = new Coor(0, -1);
 
-  //          // Creo que la lógica está mal por el "&& !HayFantasma(newPos)", no sé si habrá que meterlo en un if dentro, pero sería repetir código.
-  //          //Si la posición siguiente(método Siguiente descrito arriba) en esa dirección está libre(no hay muro) y no contiene fantasma, insertamos dicha posición en cs.
-  //          // Hay mucha repetición de código.
-  //          if (Siguiente(pers[fant].pos, abajo , out newPos) && !HayFantasma(newPos))
-		//	{
-		//		cs.Add(newPos);
-		//	}
-		//	else if (Siguiente(pers[fant].pos, derecha, out newPos) && !HayFantasma(newPos))
-		//	{
-  //              cs.Add(newPos);
-  //          }
-		//	else if (Siguiente(pers[fant].pos, arriba, out newPos) && !HayFantasma(newPos))
-		//	{
-  //              cs.Add(newPos);
-  //          }
-		//	else if (Siguiente(pers[fant].pos, izquierda, out newPos) && !HayFantasma(newPos))
-		//	{
-  //              cs.Add(newPos);
-  //          }
+			SetCoor direcciones = new SetCoor(4);
+			direcciones.Add(abajo);
+			direcciones.Add(derecha);
+			direcciones.Add(arriba);
+			direcciones.Add(izquierda);
 
-			///*for(int i = 0;  i <= direcciones.Size(); i++)
-			//{
-			//	if (Siguiente(pers[fant].pos, direcciones, out newPos) && !HayFantasma(newPos)) { cs.Add(newPos); }
-			//}*/
-		//}
-        #endregion
-    }
+			//Si la posición siguiente en esa dirección está libre(no hay muro) y no contiene fantasma, insertamos dicha DIRECCIÓN en cs.
+			for(int i = 0; i < direcciones.Size(); i++)
+			{
+				if (Siguiente(pers[fant].pos, direcciones.Coors[i], out newPos) && !HayFantasma(newPos)) cs.Add(direcciones.Coors[i]);
+			}
+		}
+		#endregion
+	}
 }
