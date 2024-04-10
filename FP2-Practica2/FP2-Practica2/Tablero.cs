@@ -279,7 +279,7 @@ namespace FP2P2
             bool avanza = false;
             if (cas[newPos.X, newPos.Y] != Casilla.Muro && cas[newPos.X, newPos.Y] != Casilla.MuroCelda) avanza = true;
 
-            // Si el personaje escapa por un borde sale por otro. NO FUNCIONA ESTA PARTE.
+            // Si el personaje escapa por un borde sale por otro. NO FUNCIONA ESTA PARTE. ¿CÓMO SE HARÍA PARA QUE SALGA POR EL OTRO LADO SI HAY PARTES NO CONECTADAS DIRECTAMENTE?
             if (newPos.X < 0) newPos.X = cas.GetLength(1) - 1;
             else if (newPos.X > cas.GetLength(1)) newPos.X = 0;
             else if (newPos.Y < 0) newPos.Y = cas.GetLength(0) - 1;
