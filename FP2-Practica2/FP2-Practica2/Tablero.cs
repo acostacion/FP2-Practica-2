@@ -391,7 +391,41 @@ namespace FP2P2
 			{
 				if (Siguiente(pers[fant].pos, direcciones.Coors[i], out newPos) && !HayFantasma(newPos)) cs.Add(direcciones.Coors[i]);
 			}
+
+			return cs.Size();
 		}
-		#endregion
-	}
+
+
+		private void SeleccionaDir(int fant)
+		{
+			int numDirs = PosiblesDirs(fant, out SetCoor cs);
+
+			if(numDirs > 1)
+			{
+				Coor dirOp = new Coor(pers[fant].dir.X * (-1), pers[fant].dir.Y * (-1));
+				cs.Remove(dirOp);
+
+				int n = rnd.Next(0, cs.Size());
+
+				for(int i = 0; i < n; i++)
+				{
+					cs.PopElem();
+				}
+			}
+			pers[fant].dir = cs.Coors[cs.Size() - 1];
+		}
+
+		private void EliminaMuroFantasmas()
+		{
+			for(int i = 0; i < cas.GetLength(0); i++)
+			{
+				for (int j = 0; j < cas.GetLength(1); j++)
+				{
+					if (cas[i,j] == Casilla.MuroCelda) cas[i,j] = Casilla.Libre;
+				}
+			}
+		}
+
+        #endregion
+    }
 }
