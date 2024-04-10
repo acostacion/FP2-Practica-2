@@ -163,12 +163,12 @@ namespace FP2P2
 		}
 		#endregion
 
-		public void Render()
+		public void Render() // Hay que conseguir que no parpadee la consola.
 		{
 			Console.Clear();
 			Console.ResetColor();
 
-			RenderTablero();
+            RenderTablero();
 
 			RenderPersonajes();
 
@@ -220,10 +220,10 @@ namespace FP2P2
             Console.SetCursorPosition(pers[0].pos.Y * 2, pers[0].pos.X);
             Console.BackgroundColor = colors[0];
             Console.ForegroundColor = ConsoleColor.White;
-            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write(">>"); }
-            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("<<"); }
-            else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write("^^"); }
-            else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("VV"); }
+            if (pers[0].dir.X == 1 && pers[0].dir.Y == 0) { Console.Write("VV"); }
+            else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
+            else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
+            else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
 
             // Fantasma rojo.
             Console.SetCursorPosition(pers[1].pos.Y * 2, pers[1].pos.X);
@@ -273,24 +273,26 @@ namespace FP2P2
 		{
 
 			newPos = new Coor(pos.X + dir.X, pos.Y + dir.Y);
-			// newPos = pos + dir
-
-			// Si el personaje escapa por un borde sale por otro.
-			if (newPos.X < 0) newPos.X = cas.GetLength(1) - 1;
-			else if (newPos.X > cas.GetLength(1)) newPos.X = 0;
-			else if (newPos.Y < 0) newPos.Y = cas.GetLength(0) - 1;
-			else if (newPos.Y > cas.GetLength(1)) newPos.Y = 0;
+            // newPos = pos + dir
 
             // Si en la newPos no hay muro...
             bool avanza = false;
             if (cas[newPos.X, newPos.Y] != Casilla.Muro && cas[newPos.X, newPos.Y] != Casilla.MuroCelda) avanza = true;
 
-			return avanza;
+            // Si el personaje escapa por un borde sale por otro. NO FUNCIONA ESTA PARTE.
+            if (newPos.X < 0) newPos.X = cas.GetLength(1) - 1;
+            else if (newPos.X > cas.GetLength(1)) newPos.X = 0;
+            else if (newPos.Y < 0) newPos.Y = cas.GetLength(0) - 1;
+            else if (newPos.Y > cas.GetLength(1)) newPos.Y = 0;
+
+            
+
+            return avanza;
 		}
 
-		public void MuevePacman()
+		public void MuevePacman() // El método del movimiento va bien (supongo).
 		{
-			if(Siguiente(pers[0].pos, pers[0].dir, out Coor newPos))
+			if(Siguiente(pers[0].pos, pers[0].dir, out Coor newPos)) 
 			{
 				// Se mueve Pacman
 				pers[0].pos = newPos;
@@ -304,14 +306,14 @@ namespace FP2P2
 			}
         }
 
-		public bool CambiaDir(char c)
+		public bool CambiaDir(char c) // Andrea cariño mio amor mio luego te explico la representacion de la consola como va que yo la entiendo mejor cambiada.
 		{
 			bool dirCambiada = false;
 			Coor newPos;
 			switch (c)
 			{
 				case 'l':
-					Coor l = new Coor(-1, 0);
+					Coor l = new Coor(0, -1);
                     if (Siguiente(pers[0].pos, l, out newPos))
 					{
                         pers[0].dir = l;
@@ -320,7 +322,7 @@ namespace FP2P2
 					break;
 
 				case 'r':
-					Coor r = new Coor(1, 0);
+					Coor r = new Coor(0, 1);
                     if (Siguiente(pers[0].pos, r, out newPos))
                     {
                         pers[0].dir = r;
@@ -329,7 +331,7 @@ namespace FP2P2
                     break;
 
 				case 'u':
-					Coor u = new Coor(0, -1);
+					Coor u = new Coor(-1, 0);
                     if (Siguiente(pers[0].pos, u, out newPos))
                     {
 						pers[0].dir = u;
@@ -338,7 +340,7 @@ namespace FP2P2
                     break;
 
                 case 'd':
-					Coor d = new Coor(0, 1);
+					Coor d = new Coor(1, 0);
                     if (Siguiente(pers[0].pos, d, out newPos))
                     {
 						pers[0].dir = d;
@@ -348,10 +350,27 @@ namespace FP2P2
             }
 			return dirCambiada;
 		}
+
+
 		#endregion
 
 		#region 3.Movimiento de los fantasmas
+		private bool HayFantasma(Coor c)
+		{
+			bool hayFantasma = false;
 
-		#endregion
-	}
+			for (int i = 1; i < pers.Length; i++)
+			{
+				if (pers[i].pos == c) { hayFantasma = true; }
+			}
+
+			return hayFantasma;
+		}
+
+		/*private int PosiblesDirs(int fant, out SetCoor cs) // ¿Cómo que SetCoor? ¿Nos lo han dado?
+		{
+
+		}*/
+        #endregion
+    }
 }
