@@ -36,6 +36,8 @@ namespace FP2P2
 					// flag para mensajes de depuracion en consola
 		private bool DEBUG = true;
 
+		SetCoor cs;
+
 
         #region 1.Lectura de nivel y renderizado
         public Tablero(string file)
@@ -367,10 +369,50 @@ namespace FP2P2
 			return hayFantasma;
 		}
 
-		/*private int PosiblesDirs(int fant, out SetCoor cs) // ¿Cómo que SetCoor? ¿Nos lo han dado?
+		private int PosiblesDirs(int fant, out SetCoor cs) 
 		{
+			cs = new SetCoor();
+			
+			// Nueva posición y direcciones.
+			Coor newPos;
 
-		}*/
+			// Van en orden.
+            Coor abajo = new Coor(1, 0);
+            Coor derecha = new Coor(0, 1);
+            Coor arriba = new Coor(-1, 0);
+			Coor izquierda = new Coor (0, -1);
+
+            SetCoor direcciones = new SetCoor();
+            direcciones.Add(abajo);
+            direcciones.Add(derecha);
+            direcciones.Add(arriba);
+            direcciones.Add(izquierda);
+
+            // Creo que la lógica está mal por el "&& !HayFantasma(newPos)", no sé si habrá que meterlo en un if dentro, pero sería repetir código.
+            //Si la posición siguiente(método Siguiente descrito arriba) en esa dirección está libre(no hay muro) y no contiene fantasma, insertamos dicha posición en cs.
+            // Hay mucha repetición de código.
+            if (Siguiente(pers[fant].pos, abajo , out newPos) && !HayFantasma(newPos))
+			{
+				cs.Add(newPos);
+			}
+			else if (Siguiente(pers[fant].pos, derecha, out newPos) && !HayFantasma(newPos))
+			{
+                cs.Add(newPos);
+            }
+			else if (Siguiente(pers[fant].pos, arriba, out newPos) && !HayFantasma(newPos))
+			{
+                cs.Add(newPos);
+            }
+			else if (Siguiente(pers[fant].pos, izquierda, out newPos) && !HayFantasma(newPos))
+			{
+                cs.Add(newPos);
+            }
+
+			/*for(int i = 0;  i <= direcciones.Size(); i++)
+			{
+				if (Siguiente(pers[fant].pos, direcciones, out newPos) && !HayFantasma(newPos)) { cs.Add(newPos); }
+			}*/
+		}
         #endregion
     }
 }
