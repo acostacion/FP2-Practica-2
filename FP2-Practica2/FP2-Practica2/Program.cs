@@ -16,7 +16,8 @@ namespace FP2P2
             int lap = 200; // retardo para bucle ppal
             char c = ' ';
 
-            while (true) {
+            int i = 0;
+            while (i < 200) {
                 // input de usuario
                 LeeInput(ref c);
                 // procesamiento del input
@@ -31,6 +32,7 @@ namespace FP2P2
 
                 // retardo
                 System.Threading.Thread.Sleep(lap);
+                i++;
             }
         }
 

@@ -4,7 +4,7 @@ namespace FP2P2;
 
 class SetCoor{
     Coor [] coors; // array con coordenadas
-    int oc; // numero de eltos ocupados del array
+    int oc; // numero de eltos ocupados del array = primera pos libre
     public SetCoor(int tam=10){
         coors = new Coor[tam];
         oc = 0;

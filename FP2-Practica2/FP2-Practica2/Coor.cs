@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,19 @@ namespace FP2P2
             string[] nums = s.Split(",", StringSplitOptions.RemoveEmptyEntries);
             // parseamos los dos enteros y construimos coordenada
             return new Coor(int.Parse(nums[0]), int.Parse(nums[1]));
+        }
+
+        //Método para sumar un vector v a la coordenada: en este caso se modifica la coordenada actual
+        public void Translate(Coor v)
+        {
+            x += v.X;
+            y += v.Y;
+        }
+
+        // suma de coordenadas
+        public static Coor operator +(Coor c1, Coor c2)
+        {
+            return new Coor(c1.X + c2.X, c1.Y + c2.Y);
         }
 
         // igualdad y desigualdad de coordenadas.

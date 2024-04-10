@@ -273,21 +273,18 @@ namespace FP2P2
         // Calcula la siguiente posición en la dirección de movimiento. Devuelve true si puede moverse, false si hay un muro
         private bool Siguiente(Coor pos, Coor dir, out Coor newPos)
 		{
+			newPos = pos + dir;
 
-			newPos = new Coor(pos.X + dir.X, pos.Y + dir.Y);
-            // newPos = pos + dir
+            // Si el personaje escapa por un borde sale por otro
+			// [Preguntar] Extremos no conectados permiten pasar a Pacman?
+            if (newPos.X < 0) newPos.X = cas.GetLength(0) - 1;
+            else if (newPos.X > cas.GetLength(0) - 1) newPos.X = 0;
+            else if (newPos.Y < 0) newPos.Y = cas.GetLength(1) - 1;
+            else if (newPos.Y > cas.GetLength(1) - 1) newPos.Y = 0;
 
-            // Si en la newPos no hay muro...
             bool avanza = false;
+            // Si en la newPos no hay muro...
             if (cas[newPos.X, newPos.Y] != Casilla.Muro && cas[newPos.X, newPos.Y] != Casilla.MuroCelda) avanza = true;
-
-            // Si el personaje escapa por un borde sale por otro. NO FUNCIONA ESTA PARTE. ¿CÓMO SE HARÍA PARA QUE SALGA POR EL OTRO LADO SI HAY PARTES NO CONECTADAS DIRECTAMENTE?
-            if (newPos.X < 0) newPos.X = cas.GetLength(1) - 1;
-            else if (newPos.X > cas.GetLength(1)) newPos.X = 0;
-            else if (newPos.Y < 0) newPos.Y = cas.GetLength(0) - 1;
-            else if (newPos.Y > cas.GetLength(1)) newPos.Y = 0;
-
-            
 
             return avanza;
 		}
@@ -369,50 +366,50 @@ namespace FP2P2
 			return hayFantasma;
 		}
 
-		private int PosiblesDirs(int fant, out SetCoor cs) 
-		{
-			cs = new SetCoor();
+		//private int PosiblesDirs(int fant, out SetCoor cs) 
+		//{
+		//	cs = new SetCoor();
 			
-			// Nueva posición y direcciones.
-			Coor newPos;
+		//	// Nueva posición y direcciones.
+		//	Coor newPos;
 
-			// Van en orden.
-            Coor abajo = new Coor(1, 0);
-            Coor derecha = new Coor(0, 1);
-            Coor arriba = new Coor(-1, 0);
-			Coor izquierda = new Coor (0, -1);
+		//	// Van en orden.
+  //          Coor abajo = new Coor(1, 0);
+  //          Coor derecha = new Coor(0, 1);
+  //          Coor arriba = new Coor(-1, 0);
+		//	Coor izquierda = new Coor (0, -1);
 
-            SetCoor direcciones = new SetCoor();
-            direcciones.Add(abajo);
-            direcciones.Add(derecha);
-            direcciones.Add(arriba);
-            direcciones.Add(izquierda);
+  //          SetCoor direcciones = new SetCoor();
+  //          direcciones.Add(abajo);
+  //          direcciones.Add(derecha);
+  //          direcciones.Add(arriba);
+  //          direcciones.Add(izquierda);
 
-            // Creo que la lógica está mal por el "&& !HayFantasma(newPos)", no sé si habrá que meterlo en un if dentro, pero sería repetir código.
-            //Si la posición siguiente(método Siguiente descrito arriba) en esa dirección está libre(no hay muro) y no contiene fantasma, insertamos dicha posición en cs.
-            // Hay mucha repetición de código.
-            if (Siguiente(pers[fant].pos, abajo , out newPos) && !HayFantasma(newPos))
-			{
-				cs.Add(newPos);
-			}
-			else if (Siguiente(pers[fant].pos, derecha, out newPos) && !HayFantasma(newPos))
-			{
-                cs.Add(newPos);
-            }
-			else if (Siguiente(pers[fant].pos, arriba, out newPos) && !HayFantasma(newPos))
-			{
-                cs.Add(newPos);
-            }
-			else if (Siguiente(pers[fant].pos, izquierda, out newPos) && !HayFantasma(newPos))
-			{
-                cs.Add(newPos);
-            }
+  //          // Creo que la lógica está mal por el "&& !HayFantasma(newPos)", no sé si habrá que meterlo en un if dentro, pero sería repetir código.
+  //          //Si la posición siguiente(método Siguiente descrito arriba) en esa dirección está libre(no hay muro) y no contiene fantasma, insertamos dicha posición en cs.
+  //          // Hay mucha repetición de código.
+  //          if (Siguiente(pers[fant].pos, abajo , out newPos) && !HayFantasma(newPos))
+		//	{
+		//		cs.Add(newPos);
+		//	}
+		//	else if (Siguiente(pers[fant].pos, derecha, out newPos) && !HayFantasma(newPos))
+		//	{
+  //              cs.Add(newPos);
+  //          }
+		//	else if (Siguiente(pers[fant].pos, arriba, out newPos) && !HayFantasma(newPos))
+		//	{
+  //              cs.Add(newPos);
+  //          }
+		//	else if (Siguiente(pers[fant].pos, izquierda, out newPos) && !HayFantasma(newPos))
+		//	{
+  //              cs.Add(newPos);
+  //          }
 
-			/*for(int i = 0;  i <= direcciones.Size(); i++)
-			{
-				if (Siguiente(pers[fant].pos, direcciones, out newPos) && !HayFantasma(newPos)) { cs.Add(newPos); }
-			}*/
-		}
+			///*for(int i = 0;  i <= direcciones.Size(); i++)
+			//{
+			//	if (Siguiente(pers[fant].pos, direcciones, out newPos) && !HayFantasma(newPos)) { cs.Add(newPos); }
+			//}*/
+		//}
         #endregion
     }
 }
