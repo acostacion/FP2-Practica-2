@@ -9,7 +9,7 @@ namespace FP2P2
 
     static void Main(string[] args)
     {
-      string file = "levels/level00.dat";
+      string file = "levels/level01.dat";
       Tablero t = new Tablero(file);
       t.Render();
 

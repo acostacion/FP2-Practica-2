@@ -29,7 +29,7 @@ namespace FP2P2
 								 ConsoleColor.Magenta,
 								 ConsoleColor.Cyan,
 								 ConsoleColor.DarkBlue };
-		const int lapCarcelFantasmas = 3; // retardo para quitar el muro a los fantasmas
+		const int lapCarcelFantasmas = 30; // retardo para quitar el muro a los fantasmas
 		public int lapFantasmas; // tiempo restante para quitar el muro
 
 		int numComida; // numero de casillas restantes con comida o vitamina
@@ -301,9 +301,20 @@ namespace FP2P2
 					numComida--;
 					cas[newPos.X, newPos.Y] = Casilla.Libre;
 
+					if (cas[newPos.X, newPos.Y] == Casilla.Vitamina) ReseteaFantasmas();
 				}
 			}
 		}
+
+		#region Submétodos MuevePacman
+		private void ReseteaFantasmas()
+		{
+			for(int i = 1; i< pers.Length; i++)
+			{
+				pers[i].pos = pers[i].ini;
+			}
+		}
+		#endregion
 
 		public bool CambiaDir(char c) // Andrea cariño mio amor mio luego te explico la representacion de la consola como va que yo la entiendo mejor cambiada.
 		{
