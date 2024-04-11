@@ -3,54 +3,59 @@
 
 namespace FP2P2
 {
-    internal class Program
+  internal class Program
+  {
+
+
+    static void Main(string[] args)
     {
+      string file = "levels/level00.dat";
+      Tablero t = new Tablero(file);
+      t.Render();
 
+      int lap = 200; // retardo para bucle ppal
+      char c = ' ';
 
-        static void Main(string[] args)
-        {
-            string file = "levels/level00.dat";
-            Tablero t = new Tablero(file);
-            t.Render();
+      int i = 0;
+      while (i < 500)
+      {
+        // input de usuario
+        LeeInput(ref c);
+        // procesamiento del input
+        if (c != ' ' && t.CambiaDir(c)) c = ' ';
 
-            int lap = 200; // retardo para bucle ppal
-            char c = ' ';
+        t.MuevePacman();
 
-            int i = 0;
-            while (i < 200) {
-                // input de usuario
-                LeeInput(ref c);
-                // procesamiento del input
-                if (c !=' ' && t.CambiaDir(c)) c =' ';
+        // IA de los fantasmas: TODO
+        t.MueveFantasmas(ref t.lapFantasmas);
 
-                t.MuevePacman();
+        // rederizado
+        t.Render();
 
-                // IA de los fantasmas: TODO
+        // retardo
+        System.Threading.Thread.Sleep(lap);
+        i++;
+      }
 
-                // rederizado
-                t.Render();
-
-                // retardo
-                System.Threading.Thread.Sleep(lap);
-                i++;
-            }
-        }
-
-        static void LeeInput(ref char dir)
-        {
-            if (Console.KeyAvailable)
-            {
-                string tecla = Console.ReadKey(true).Key.ToString();
-                switch (tecla)
-                {
-                    case "LeftArrow": dir = 'l'; break;
-                    case "UpArrow": dir = 'u'; break;
-                    case "RightArrow": dir = 'r'; break;
-                    case "DownArrow": dir = 'd'; break;
-                }
-            }
-            while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
-        }
-
+      Console.Clear();
+      Console.Write("Fin");
     }
+
+    static void LeeInput(ref char dir)
+    {
+      if (Console.KeyAvailable)
+      {
+        string tecla = Console.ReadKey(true).Key.ToString();
+        switch (tecla)
+        {
+          case "LeftArrow": dir = 'l'; break;
+          case "UpArrow": dir = 'u'; break;
+          case "RightArrow": dir = 'r'; break;
+          case "DownArrow": dir = 'd'; break;
+        }
+      }
+      while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
+    }
+
+  }
 }
