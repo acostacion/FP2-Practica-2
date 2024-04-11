@@ -313,6 +313,7 @@ namespace FP2P2
 			{
 				pers[i].pos = pers[i].ini;
 			}
+			lapFantasmas = lapCarcelFantasmas;
 		}
 		#endregion
 
