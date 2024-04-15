@@ -296,13 +296,18 @@ namespace FP2P2
 				// Se mueve Pacman
 				pers[0].pos = newPos;
 
-				if (cas[newPos.X, newPos.Y] == Casilla.Vitamina || cas[newPos.X, newPos.Y] == Casilla.Comida)
+				if (cas[newPos.X, newPos.Y] == Casilla.Comida)
 				{
 					numComida--;
 					cas[newPos.X, newPos.Y] = Casilla.Libre;
-
-					if (cas[newPos.X, newPos.Y] == Casilla.Vitamina) ReseteaFantasmas();
 				}
+				else if (cas[newPos.X, newPos.Y] == Casilla.Vitamina)
+				{
+                    numComida--;
+                    cas[newPos.X, newPos.Y] = Casilla.Libre;
+					ReseteaFantasmas();
+                }
+
 			}
 		}
 
