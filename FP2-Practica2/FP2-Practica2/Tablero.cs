@@ -125,9 +125,13 @@ namespace FP2P2
 						case 1:
 							cas[i, j] = Casilla.Muro; break;
 						case 2:
-							cas[i, j] = Casilla.Comida; break;
+							cas[i, j] = Casilla.Comida;
+							numComida++;
+							break;
 						case 3:
-							cas[i, j] = Casilla.Vitamina; break;
+							cas[i, j] = Casilla.Vitamina;
+							numComida++;
+							break;
 						case 4:
 							cas[i, j] = Casilla.MuroCelda; break;
 						case 5:
@@ -463,5 +467,24 @@ namespace FP2P2
 		}
 
 		#endregion
-	}
+
+		#region 4.Colisiones y final de nivel
+		public bool Captura()
+		{
+			bool capturado = false;
+			int i = 1;
+			while(i < pers.Length && !capturado)
+			{
+				capturado = pers[0].pos == pers[i].pos;
+				i++;
+			}
+			return capturado;
+		}
+
+		public bool FinNivel()
+		{
+			return numComida == 0;
+		}
+        #endregion
+    }
 }
