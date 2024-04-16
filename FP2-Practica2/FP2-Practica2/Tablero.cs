@@ -237,6 +237,7 @@ namespace FP2P2
 			else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
 			else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
 			else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
+			else if (pers[0].dir.X == 0 && pers[0].dir.Y == 0) { Console.Write("00"); }
 
 			// Fantasma rojo.
 			Console.SetCursorPosition(pers[1].pos.Y * 2, pers[1].pos.X);
@@ -332,13 +333,13 @@ namespace FP2P2
 		}
 		#endregion
 
-		public bool CambiaDir(char c) // Andrea cariño mio amor mio luego te explico la representacion de la consola como va que yo la entiendo mejor cambiada.
+		public bool CambiaDir(char c) 
 		{
 			bool dirCambiada = false;
 			Coor newPos;
 			switch (c)
 			{
-				case 'l':
+				case 'l': // <<
 					Coor l = new Coor(0, -1);
 					if (Siguiente(pers[0].pos, l, out newPos))
 					{
@@ -347,7 +348,7 @@ namespace FP2P2
 					}
 					break;
 
-				case 'r':
+				case 'r': // >>
 					Coor r = new Coor(0, 1);
 					if (Siguiente(pers[0].pos, r, out newPos))
 					{
@@ -356,7 +357,7 @@ namespace FP2P2
 					}
 					break;
 
-				case 'u':
+				case 'u': // ^^
 					Coor u = new Coor(-1, 0);
 					if (Siguiente(pers[0].pos, u, out newPos))
 					{
@@ -365,11 +366,20 @@ namespace FP2P2
 					}
 					break;
 
-				case 'd':
-					Coor d = new Coor(1, 0);
+				case 'd': // VV
+                    Coor d = new Coor(1, 0);
 					if (Siguiente(pers[0].pos, d, out newPos))
 					{
 						pers[0].dir = d;
+						dirCambiada = true;
+					}
+					break;
+
+				case 'p': // pausa
+					Coor p = new Coor(0, 0);
+					if (Siguiente(pers[0].pos, p, out newPos))
+					{
+						pers[0].dir = p;
 						dirCambiada = true;
 					}
 					break;

@@ -58,15 +58,8 @@ namespace FP2P2
                     Console.Write("¡Victoria!");
                     num++;
                 }
-            }
-            
-
-            
-            
-
-            
-            
-            
+                capturado = false;
+            } 
         }
 
         static void LeeInput(ref char dir)
@@ -80,6 +73,7 @@ namespace FP2P2
                     case "UpArrow": dir = 'u'; break;
                     case "RightArrow": dir = 'r'; break;
                     case "DownArrow": dir = 'd'; break;
+                    case "P": dir = 'p'; break;
                 }
             }
             while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
