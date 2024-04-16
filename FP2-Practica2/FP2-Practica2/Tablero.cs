@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,12 +42,12 @@ namespace FP2P2
 
 
 		#region 1.Lectura de nivel y renderizado
-		public Tablero(string file)
-		{
-			// Para la comprobacion de la existencia del archivo
+		public Tablero(string file) // [DONE] Constructora: método especial para inicializar un objeto (tablero) y asignarle valores iniciales a sus instancia.
+        {
+			// Si el archivo existe...
 			if (File.Exists(file))
 			{
-				LeeNivel(file, out int[,] tableroNumeros);
+				LeeNivel(file, out int[,] tableroNumeros); 
 				InicializaCasyPers(out cas, out pers, tableroNumeros);
 				lapFantasmas = lapCarcelFantasmas;
 
@@ -61,19 +62,24 @@ namespace FP2P2
 		}
 
 		#region Submétodos Constructora
-		private void SacaSize(string file, out int numFils, out int numCols)
+		private void SacaSize(string file, out int numFils, out int numCols) // [DONE] Método auxiliar que saca filas y columnas.
 		{
 			StreamReader archivo = new StreamReader(file);
 
+			// ---COLUMNAS---.
 			string s = archivo.ReadLine().Replace(" ", ""); // Lee la linea y elimina los espacios en blanco.
 			numCols = s.Length; // Saca la cantidad de columnas.  
-			numFils = 1; // Empezamos a contar desde 1.
 
-			while (!archivo.EndOfStream)
-			{
-				if (archivo.ReadLine().Replace(" ", "") != "")
+			// ---FILAS---.
+			numFils = 1; // Empezamos a contar desde 1.
+            // Mientras no acabe el archivo.
+            while (!archivo.EndOfStream)
+            {
+                // Ignora las filas vacías y las cuenta.
+                if (archivo.ReadLine().Replace(" ", "") != "")
 					numFils++;
 			}
+
 			archivo.Close();
 		}
 
@@ -485,6 +491,6 @@ namespace FP2P2
 		{
 			return numComida == 0;
 		}
-        #endregion
-    }
+		#endregion
+	}
 }

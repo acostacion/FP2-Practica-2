@@ -1,6 +1,8 @@
 ﻿// Andrea Aparicio López.
 // José Tomás Gómez Becerra.
 
+using System;
+
 namespace FP2P2
 {
     internal class Program
@@ -9,43 +11,62 @@ namespace FP2P2
 
         static void Main(string[] args)
         {
-            string file = "levels/level01.dat";
-            Tablero t = new Tablero(file);
-            t.Render();
-
-            int lap = 200; // retardo para bucle ppal
-            char c = ' ';
-
+            // Nivel inicial.
+            int num = 0;
             bool capturado = false;
 
-            
-            while (!capturado && !t.FinNivel())
+            while (num < 10)
             {
-                // input de usuario
-                LeeInput(ref c);
-                // procesamiento del input
-                if (c != ' ' && t.CambiaDir(c)) c = ' ';
-
-                t.MuevePacman();
-                capturado = t.Captura();
-
-                if(!capturado)
-                {
-                    // IA de los fantasmas
-                    t.MueveFantasmas(ref t.lapFantasmas);
-                    capturado = t.Captura();
-                }
-
-                // rederizado
+                string file = $"levels/level0{num}.dat";
+                Tablero t = new Tablero(file);
                 t.Render();
 
-                // retardo
-                System.Threading.Thread.Sleep(lap);
-            }
+                int lap = 200; // retardo para bucle ppal
+                char c = ' ';
 
-            Console.Clear();
-            if (capturado) Console.Write("¡Te han comido!");
-            else Console.Write("¡Victoria!");
+                while (!capturado && !t.FinNivel())
+                {
+                    // input de usuario
+                    LeeInput(ref c);
+                    // procesamiento del input
+                    if (c != ' ' && t.CambiaDir(c)) c = ' ';
+
+                    t.MuevePacman();
+                    capturado = t.Captura();
+
+                    if (!capturado)
+                    {
+                        // IA de los fantasmas
+                        t.MueveFantasmas(ref t.lapFantasmas);
+                        capturado = t.Captura();
+                    }
+
+                    // rederizado
+                    t.Render();
+
+                    // retardo
+                    System.Threading.Thread.Sleep(lap);
+                }
+
+                Console.Clear();
+                if (capturado)
+                {
+                    Console.Write("¡Te han comido!");
+                }
+                else
+                {
+                    Console.Write("¡Victoria!");
+                    num++;
+                }
+            }
+            
+
+            
+            
+
+            
+            
+            
         }
 
         static void LeeInput(ref char dir)
