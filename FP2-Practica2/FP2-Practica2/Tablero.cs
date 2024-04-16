@@ -433,7 +433,6 @@ namespace FP2P2
 			return cs.Size();
 		}
 
-
 		private void SeleccionaDir(int fant)
 		{
 			int numDirs = PosiblesDirs(fant, out SetCoor cs);
@@ -464,7 +463,7 @@ namespace FP2P2
 			}
 		}
 
-		public void MueveFantasmas(ref int lap)
+		public void MueveFantasmas(ref int lap) // Lo que se me ocurre para parar a los fantasmas es meterle la sobrecarga de leeinput y pararlo cuando le des a la p como cuando hago con el pacman.
 		{
 			if(lap <= 0)
 			{
@@ -481,11 +480,10 @@ namespace FP2P2
 				if(lap == 0) EliminaMuroFantasmas();
 			}
 		}
+        #endregion
 
-		#endregion
-
-		#region 4.Colisiones y final de nivel
-		public bool Captura()
+        #region 4.Colisiones y final de nivel
+        public bool Captura()
 		{
 			bool capturado = false;
 			int i = 1;
