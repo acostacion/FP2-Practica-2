@@ -7,10 +7,10 @@ namespace FP2P2
 {
   internal class Program
   {
-
-
     static void Main(string[] args)
     {
+      
+
       // Nivel inicial.
       int num = 0;
       bool capturado = false;
@@ -87,7 +87,8 @@ namespace FP2P2
           case "UpArrow": dir = 'u'; break;
           case "RightArrow": dir = 'r'; break;
           case "DownArrow": dir = 'd'; break;
-          case "P": dir = 'p'; break;
+          case "P": dir = 'p'; break; // Pausa.
+          case "X": dir = 'x'; break; // Salir.
         }
       }
       while (Console.KeyAvailable) Console.ReadKey().Key.ToString();
