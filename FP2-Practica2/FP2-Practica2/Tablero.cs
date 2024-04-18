@@ -374,15 +374,6 @@ namespace FP2P2
 						dirCambiada = true;
 					}
 					break;
-
-				case 'p': // pausa
-					Coor p = new Coor(0, 0);
-					if (Siguiente(pers[0].pos, p, out newPos))
-					{
-						pers[0].dir = p;
-						dirCambiada = true;
-					}
-					break;
 			}
 			return dirCambiada;
 		}
@@ -482,7 +473,7 @@ namespace FP2P2
 		}
         #endregion
 
-        #region 4.Colisiones y final de nivel
+    #region 4.Colisiones y final de nivel
         public bool Captura()
 		{
 			bool capturado = false;
