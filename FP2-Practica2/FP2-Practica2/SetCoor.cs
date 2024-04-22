@@ -1,3 +1,6 @@
+// Andrea Aparicio López.
+// José Tomás Gómez Becerra.
+
 using System;
 
 namespace FP2P2;
