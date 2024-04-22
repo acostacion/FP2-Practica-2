@@ -80,12 +80,14 @@ namespace FP2P2
                         Console.WriteLine("¡Te han comido!");
                         Console.Write("¿Quieres volver a empezar? S/N");
                         start = Console.ReadLine().ToLower() == "s";
-                        num = 1;
+                        num = 0;
                     }
                     else
                     {
                         Console.Write("¡Victoria!");
-                        num++;
+                        Console.Write("¿Quieres avanzar al siguiente nivel? S/N");
+                        if (Console.ReadLine().ToLower() == "s") num++;
+                        
                     }
                     capturado = false;
                 }

@@ -35,7 +35,7 @@ namespace FP2P2
 
 		int numComida; // numero de casillas restantes con comida o vitamina
 		Random rnd; // generador de aleatorios
-								// flag para mensajes de depuracion en consola
+					// flag para mensajes de depuracion en consola
 		private bool DEBUG = true;
 
 		SetCoor cs;
@@ -43,11 +43,11 @@ namespace FP2P2
 
 		#region 1.Lectura de nivel y renderizado
 		public Tablero(string file) // [DONE] Constructora: método especial para inicializar un objeto (tablero) y asignarle valores iniciales a sus instancia.
-        {
+		{
 			// Si el archivo existe...
 			if (File.Exists(file))
 			{
-				LeeNivel(file, out int[,] tableroNumeros); 
+				LeeNivel(file, out int[,] tableroNumeros);
 				InicializaCasyPers(out cas, out pers, tableroNumeros);
 				lapFantasmas = lapCarcelFantasmas;
 
@@ -72,11 +72,11 @@ namespace FP2P2
 
 			// ---FILAS---.
 			numFils = 1; // Empezamos a contar desde 1.
-            // Mientras no acabe el archivo.
-            while (!archivo.EndOfStream)
-            {
-                // Ignora las filas vacías y las cuenta.
-                if (archivo.ReadLine().Replace(" ", "") != "")
+						 // Mientras no acabe el archivo.
+			while (!archivo.EndOfStream)
+			{
+				// Ignora las filas vacías y las cuenta.
+				if (archivo.ReadLine().Replace(" ", "") != "")
 					numFils++;
 			}
 
@@ -314,10 +314,10 @@ namespace FP2P2
 				}
 				else if (cas[newPos.X, newPos.Y] == Casilla.Vitamina)
 				{
-                    numComida--;
-                    cas[newPos.X, newPos.Y] = Casilla.Libre;
+					numComida--;
+					cas[newPos.X, newPos.Y] = Casilla.Libre;
 					ReseteaFantasmas();
-                }
+				}
 
 			}
 		}
@@ -325,7 +325,7 @@ namespace FP2P2
 		#region Submétodos MuevePacman
 		private void ReseteaFantasmas()
 		{
-			for(int i = 1; i< pers.Length; i++)
+			for (int i = 1; i < pers.Length; i++)
 			{
 				pers[i].pos = pers[i].ini;
 			}
@@ -333,7 +333,7 @@ namespace FP2P2
 		}
 		#endregion
 
-		public bool CambiaDir(char c) 
+		public bool CambiaDir(char c)
 		{
 			bool dirCambiada = false;
 			Coor newPos;
@@ -367,7 +367,7 @@ namespace FP2P2
 					break;
 
 				case 'd': // VV
-                    Coor d = new Coor(1, 0);
+					Coor d = new Coor(1, 0);
 					if (Siguiente(pers[0].pos, d, out newPos))
 					{
 						pers[0].dir = d;
@@ -440,7 +440,7 @@ namespace FP2P2
 					cs.PopElem();
 				}
 			}
-			if(cs.Size() > 0) pers[fant].dir = cs.Coors[cs.Size() - 1];
+			if (cs.Size() > 0) pers[fant].dir = cs.Coors[cs.Size() - 1];
 		}
 
 		private void EliminaMuroFantasmas()
@@ -456,7 +456,7 @@ namespace FP2P2
 
 		public void MueveFantasmas(ref int lap) // Lo que se me ocurre para parar a los fantasmas es meterle la sobrecarga de leeinput y pararlo cuando le des a la p como cuando hago con el pacman.
 		{
-			if(lap <= 0)
+			if (lap <= 0)
 			{
 				for (int i = 1; i < pers.Length; i++)
 				{
@@ -468,17 +468,17 @@ namespace FP2P2
 			else
 			{
 				lap--;
-				if(lap == 0) EliminaMuroFantasmas();
+				if (lap == 0) EliminaMuroFantasmas();
 			}
 		}
-        #endregion
+		#endregion
 
-    #region 4.Colisiones y final de nivel
-        public bool Captura()
+		#region 4.Colisiones y final de nivel
+		public bool Captura()
 		{
 			bool capturado = false;
 			int i = 1;
-			while(i < pers.Length && !capturado)
+			while (i < pers.Length && !capturado)
 			{
 				capturado = pers[0].pos == pers[i].pos;
 				i++;
