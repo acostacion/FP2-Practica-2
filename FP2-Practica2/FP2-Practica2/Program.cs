@@ -23,7 +23,7 @@ namespace FP2P2
             while(start)
             {
                 // Nivel inicial.
-                int num = 1;
+                int num = 0;
                 bool capturado = false;
 
                 while (num < 10 && start)

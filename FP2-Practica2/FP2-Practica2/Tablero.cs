@@ -42,12 +42,12 @@ namespace FP2P2
 
 
 		#region 1.Lectura de nivel y renderizado
-		public Tablero(string file) // [DONE] Constructora: método especial para inicializar un objeto (tablero) y asignarle valores iniciales a sus instancia.
+		public Tablero(string file) // Constructora: método especial para inicializar un objeto (tablero) y asignarle valores iniciales a sus instancia.
 		{
 			// Si el archivo existe...
 			if (File.Exists(file))
 			{
-				LeeNivel(file, out int[,] tableroNumeros);
+				LeeNivel(file, out int[,] tableroNumeros); 
 				InicializaCasyPers(out cas, out pers, tableroNumeros);
 				lapFantasmas = lapCarcelFantasmas;
 
@@ -62,7 +62,7 @@ namespace FP2P2
 		}
 
 		#region Submétodos Constructora
-		private void SacaSize(string file, out int numFils, out int numCols) // [DONE] Método auxiliar que saca filas y columnas.
+		private void SacaSize(string file, out int numFils, out int numCols) // Método auxiliar que saca filas y columnas.
 		{
 			StreamReader archivo = new StreamReader(file);
 
@@ -237,7 +237,6 @@ namespace FP2P2
 			else if (pers[0].dir.X == -1 && pers[0].dir.Y == 0) { Console.Write("^^"); }
 			else if (pers[0].dir.X == 0 && pers[0].dir.Y == 1) { Console.Write(">>"); }
 			else if (pers[0].dir.X == 0 && pers[0].dir.Y == -1) { Console.Write("<<"); }
-			else if (pers[0].dir.X == 0 && pers[0].dir.Y == 0) { Console.Write("00"); }
 
 			// Fantasma rojo.
 			Console.SetCursorPosition(pers[1].pos.Y * 2, pers[1].pos.X);
@@ -378,7 +377,6 @@ namespace FP2P2
 			return dirCambiada;
 		}
 
-
 		#endregion
 
 		#region 3.Movimiento de los fantasmas
@@ -454,7 +452,7 @@ namespace FP2P2
 			}
 		}
 
-		public void MueveFantasmas(ref int lap) // Lo que se me ocurre para parar a los fantasmas es meterle la sobrecarga de leeinput y pararlo cuando le des a la p como cuando hago con el pacman.
+		public void MueveFantasmas(ref int lap) 
 		{
 			if (lap <= 0)
 			{
