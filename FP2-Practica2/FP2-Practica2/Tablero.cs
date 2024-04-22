@@ -35,10 +35,7 @@ namespace FP2P2
 
 		int numComida; // numero de casillas restantes con comida o vitamina
 		Random rnd; // generador de aleatorios
-					// flag para mensajes de depuracion en consola
-		private bool DEBUG = true;
-
-		SetCoor cs;
+		private bool DEBUG = false;	// flag para mensajes de depuracion en consola
 
 
 		#region 1.Lectura de nivel y renderizado
