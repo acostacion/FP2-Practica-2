@@ -261,12 +261,12 @@ namespace FP2P2
 			Console.BackgroundColor = colors[4];
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.Write("ºº");
+			Console.ResetColor();
 		}
 
 		private void RenderDebug()
 		{
 			Console.SetCursorPosition(0, cas.GetLength(0) + 2);
-			Console.ResetColor();
 
 			// Quizá en el debug luego haya que incluir cosas tipo Fantasma rojo, fantasma azul en lugar de f1.
 			Console.Write($"Pacman: pos{pers[0].pos.ToString()} dir{pers[0].dir.ToString()}" +
